@@ -5,13 +5,18 @@
 .lwptoc_i DIV A:active, .lwptoc_i DIV A:focus, .lwptoc_i DIV A:hover {box-shadow: none !important;border: none !important;text-decoration: none !important;}
 .lwptoc_i DIV A:hover {border-bottom: 1px dotted !important;}
 .lwptoc_header {margin-bottom: 6px;}
+.rtl .lwptoc_header {text-align: right;}
 .lwptoc_toggle {margin-left: 4px;font-size: 80%;}
+.rtl .lwptoc_toggle {margin-left: 0;margin-right: 4px;}
 .lwptoc_toggle:before {content: "[";}
 .lwptoc_toggle:after {content: "]";}
 .lwptoc_toggle_label {margin: 0 1px;}
 .lwptoc_item_number {margin-right: 2px;}
+.rtl .lwptoc_item_number {margin-right: 0;margin-left: 2px;}
 .lwptoc_itemWrap .lwptoc_itemWrap {margin: 2px 0 0 14px;}
+.rtl .lwptoc_itemWrap .lwptoc_itemWrap {margin-left: 0;margin-right: 14px;}
 .lwptoc_item {margin-top: 2px;}
+.rtl .lwptoc_item {text-align: right;}
 .lwptoc_item:first-child {margin-top: 0;}
 .lwptoc-autoWidth .lwptoc_i {display: inline-block;}
 .lwptoc-left {float: left;margin-top: 0;margin-right: 32px;}
