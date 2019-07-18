@@ -228,6 +228,9 @@ h1, h2, h3, h4, h5, h6, .hestia-title, .hestia-title.title-in-content, p.meta-in
 	color: #1e386a;
 	background-color: #EEE
 }
+code{
+	color: #505050
+}
 .menu-item{
 	padding-left:5px;
 }
@@ -354,6 +357,10 @@ li.current-menu-item {
 
 
 
+<p>Note that the username and password will need to be <a href="https://www.google.com/search?q=url+encoder">URL encoded</a>. For example, <code>first+last@company.com</code> would be encoded into <code>first%2Blast%40company.com</code>.</p>
+
+
+
 <h3><span id="Example_response">Example response</span></h3>
 
 
@@ -368,6 +375,14 @@ li.current-menu-item {
     "session_state": "bdfa26c7-cd3f-4709-b77d-8e05320454a8"
 }
 </code></pre>
+
+
+
+<p>The expires_in field specifies (in seconds) when the access_token will no longer be valid. You will need to reauthenticate to acquire a new access_token.</p>
+
+
+
+<p><strong>[How is the refresh_token used?]</strong></p>
 
 
 
