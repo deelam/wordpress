@@ -12,7 +12,7 @@
 	<atom:link href="https://deelam.github.io/wordpress/category/api/feed/" rel="self" type="application/rss+xml" />
 	<link>http://deelam.github.io/wordpress/</link>
 	<description>Alegion Platform</description>
-	<lastBuildDate>Sat, 13 Jul 2019 22:41:14 +0000</lastBuildDate>
+	<lastBuildDate>Thu, 18 Jul 2019 14:33:12 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
@@ -880,7 +880,7 @@ X-Total-Count: 42
 				<category><![CDATA[API]]></category>
 
 		<guid isPermaLink="false">http://deelam.github.io/wordpress/:8000/?page_id=15</guid>
-				<description><![CDATA[Authenticate by sending a POST request to the /auth/realms/{customerId}/protocol/openid-connect/token endpoint. Retrieve the access_token from the response body, and use it in the Authorization field in the header for all subsequent requests. Example request Example response]]></description>
+				<description><![CDATA[Authenticate by sending a POST request to the /auth/realms/{customerId}/protocol/openid-connect/token endpoint. Retrieve the access_token from the response body, and use it in the Authorization field in the header for all subsequent requests. Example request Note that the username and password will need to be URL encoded. For example, first+last@company.com would be<a class="moretag" href="https://deelam.github.io/wordpress/api/authentication/"> Read more&#8230;</a>]]></description>
 								<content:encoded><![CDATA[
 <p>Authenticate by sending a POST request to the <code>/auth/realms/{customerId}/protocol/openid-connect/token</code> endpoint. Retrieve the <code>access_token</code> from the response body, and use it in the <code>Authorization</code> field in the header for all subsequent requests.</p>
 
@@ -899,6 +899,10 @@ X-Total-Count: 42
 
 
 
+<p>Note that the username and password will need to be <a href="https://www.google.com/search?q=url+encoder">URL encoded</a>. For example, <code>first+last@company.com</code> would be encoded into <code>first%2Blast%40company.com</code>.</p>
+
+
+
 <h3>Example response</h3>
 
 
@@ -913,6 +917,14 @@ X-Total-Count: 42
     "session_state": "bdfa26c7-cd3f-4709-b77d-8e05320454a8"
 }
 </code></pre>
+
+
+
+<p>The expires_in field specifies (in seconds) when the access_token will no longer be valid. You will need to reauthenticate to acquire a new access_token.</p>
+
+
+
+<p><strong>[How is the refresh_token used?]</strong></p>
 
 
 <style id="kt-blocks_4b37db-90" type="text/css">.kt-accordion-id_4b37db-90 .kt-accordion-panel-inner {background:#ffffff;border-width:0px 0px 0px 0px;}.kt-accordion-id_4b37db-90 .kt-blocks-accordion-header {background:#f2f2f2;border-color:#555555 #555555 #555555 #555555;font-size:18px;line-height:24px;border-radius:6px 6px 6px 6px;border-width:0px 0px 0px 0px;padding:14px 16px 14px 16px;margin-top:10px;}.kt-accordion-id_4b37db-90 .kt-blocks-accordion-header .kt-btn-svg-icon svg {width:18px;height:18px;}.kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-icon-trigger:after, .kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-icon-trigger:before {background:#f2f2f2;}.kt-accordion-id_4b37db-90 .kt-blocks-accordion-header:hover, .kt-accordion-id_4b37db-90 .kt-blocks-accordion-header:focus {color:#444444;background:#eeeeee;border-color:#eeeeee #eeeeee #eeeeee #eeeeee;}.kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basiccircle ):not( .kt-accodion-icon-style-xclosecircle ):not( .kt-accodion-icon-style-arrowcircle ) .kt-blocks-accordion-header:hover .kt-blocks-accordion-icon-trigger:after, .kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basiccircle ):not( .kt-accodion-icon-style-xclosecircle ):not( .kt-accodion-icon-style-arrowcircle ) .kt-blocks-accordion-header:hover .kt-blocks-accordion-icon-trigger:before, .kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basiccircle ):not( .kt-accodion-icon-style-xclosecircle ):not( .kt-accodion-icon-style-arrowcircle ) .kt-blocks-accordion-header:focus .kt-blocks-accordion-icon-trigger:after, .kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basiccircle ):not( .kt-accodion-icon-style-xclosecircle ):not( .kt-accodion-icon-style-arrowcircle ) .kt-blocks-accordion-header:focus .kt-blocks-accordion-icon-trigger:before {background:#444444;}.kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-header:hover .kt-blocks-accordion-icon-trigger, .kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-header:focus .kt-blocks-accordion-icon-trigger {background:#444444;}.kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-header:hover .kt-blocks-accordion-icon-trigger:after, .kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-header:hover .kt-blocks-accordion-icon-trigger:before, .kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-header:focus .kt-blocks-accordion-icon-trigger:after, .kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-header:focus .kt-blocks-accordion-icon-trigger:before {background:#eeeeee;}.kt-accordion-id_4b37db-90 .kt-blocks-accordion-header.kt-accordion-panel-active {color:#ffffff;background:#f3690e;border-color:#f3690e #f3690e #f3690e #f3690e;}.kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basiccircle ):not( .kt-accodion-icon-style-xclosecircle ):not( .kt-accodion-icon-style-arrowcircle ) .kt-blocks-accordion-header.kt-accordion-panel-active .kt-blocks-accordion-icon-trigger:after, .kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basiccircle ):not( .kt-accodion-icon-style-xclosecircle ):not( .kt-accodion-icon-style-arrowcircle ) .kt-blocks-accordion-header.kt-accordion-panel-active .kt-blocks-accordion-icon-trigger:before {background:#ffffff;}.kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-header.kt-accordion-panel-active .kt-blocks-accordion-icon-trigger {background:#ffffff;}.kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-header.kt-accordion-panel-active .kt-blocks-accordion-icon-trigger:after, .kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-header.kt-accordion-panel-active .kt-blocks-accordion-icon-trigger:before {background:#f3690e;}</style>
