@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 """
-Basic SDK for testing Alegion API endpoints.
+Basic script for testing Alegion API endpoints.
 
 Run this script with the '-h' argument for a description of its usage.
 The first action that must be done before anything else is 'cred'
@@ -215,7 +215,7 @@ help_text="""Following are possible actions, their parameters, and what each act
     results batchId                       : show results associated with the specified batch\
 """.format(credfile)
 
-parser = argparse.ArgumentParser(description="Basic commandline SDK for testing Alegion API endpoints.",
+parser = argparse.ArgumentParser(description="Basic commandline tool for testing Alegion API endpoints.",
    epilog=help_text,
 	formatter_class=argparse.RawDescriptionHelpFormatter)
 #parser.add_argument('cred', nargs=3, help="set credentials for authentication")
