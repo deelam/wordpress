@@ -342,7 +342,7 @@ li.current-menu-item {
 </script></div>		</aside></div>
 				<div class="col-md-8 page-content-wrap ">
 					<div class="row"><div class="col-md-12"><h1 class="hestia-title title-in-content ">Python Test Script</h1></div></div>
-<p>To test the Alegion Platform from your account, try out <a href="https://deelam.github.io/wordpress/wp-content/uploads/alegion_sdk.py">this alegion_sdk.py</a> Python script. The following shows its usage in a Linux environment.</p>
+<p>To test the Alegion Platform from your account, try out <a href="https://deelam.github.io/wordpress/wp-content/uploads/alegion_client.py">this alegion_client.py</a> Python 3 script. The following shows its usage in a Linux environment.</p>
 
 
 
@@ -366,8 +366,8 @@ li.current-menu-item {
 
 
 
-<pre class="wp-block-code"><code>> ./alegion_sdk.py -h
-usage: alegion_sdk.py [-h] action [actionparam [actionparam ...]]
+<pre class="wp-block-code"><code>> ./alegion_client.py -h
+usage: alegion_client.py [-h] action [actionparam [actionparam ...]]
 <snip></code></pre>
 
 
@@ -380,7 +380,7 @@ usage: alegion_sdk.py [-h] action [actionparam [actionparam ...]]
 
 
 
-<pre class="wp-block-preformatted">> ./alegion_sdk.py cred MY_REALM 'MY_USERNAME' 'MY_PASSWORD'</pre>
+<pre class="wp-block-preformatted">> ./alegion_client.py cred MY_REALM 'MY_USERNAME' 'MY_PASSWORD'</pre>
 
 
 
@@ -404,7 +404,7 @@ usage: alegion_sdk.py [-h] action [actionparam [actionparam ...]]
 
 
 
-<pre class="wp-block-code"><code>> ./alegion_sdk.py workflows</code></pre>
+<pre class="wp-block-code"><code>> ./alegion_client.py workflows</code></pre>
 
 
 
@@ -412,7 +412,7 @@ usage: alegion_sdk.py [-h] action [actionparam [actionparam ...]]
 
 
 
-<pre class="wp-block-code"><code>> ./alegion_sdk.py createBatch WORKFLOW_ID 'My First Batch'</code></pre>
+<pre class="wp-block-code"><code>> ./alegion_client.py createBatch WORKFLOW_ID 'My First Batch'</code></pre>
 
 
 
@@ -420,7 +420,7 @@ usage: alegion_sdk.py [-h] action [actionparam [actionparam ...]]
 
 
 
-<pre class="wp-block-code"><code>> ./alegion_sdk.py batches WORKFLOW_ID</code></pre>
+<pre class="wp-block-code"><code>> ./alegion_client.py batches WORKFLOW_ID</code></pre>
 
 
 
@@ -428,7 +428,7 @@ usage: alegion_sdk.py [-h] action [actionparam [actionparam ...]]
 
 
 
-<pre class="wp-block-code"><code>> ./alegion_sdk.py addRecord BATCH_ID '{
+<pre class="wp-block-code"><code>> ./alegion_client.py addRecord BATCH_ID '{
      "data": { "sample_key": "sample_value" },
      "metadata": "record-00001"
 }'</code></pre>
@@ -443,7 +443,7 @@ usage: alegion_sdk.py [-h] action [actionparam [actionparam ...]]
 
 
 
-<pre class="wp-block-code"><code>> ./alegion_sdk.py records BATCH_ID</code></pre>
+<pre class="wp-block-code"><code>> ./alegion_client.py records BATCH_ID</code></pre>
 
 
 
@@ -451,7 +451,7 @@ usage: alegion_sdk.py [-h] action [actionparam [actionparam ...]]
 
 
 
-<pre class="wp-block-code"><code>> ./alegion_sdk.py results BATCH_ID</code></pre>
+<pre class="wp-block-code"><code>> ./alegion_client.py results BATCH_ID</code></pre>
 
 
 
