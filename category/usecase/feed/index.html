@@ -12,7 +12,7 @@
 	<atom:link href="https://deelam.github.io/wordpress/category/usecase/feed/" rel="self" type="application/rss+xml" />
 	<link>http://deelam.github.io/wordpress/</link>
 	<description>Alegion Platform</description>
-	<lastBuildDate>Fri, 19 Jul 2019 17:33:53 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 22 Jul 2019 21:32:45 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
@@ -130,7 +130,7 @@ usage: alegion_client.py [-h] action [actionparam [actionparam ...]]
 
 
 
-<p>You can add input records to a batch at any time using the method above or in bulk using a CSV file or JSON &#8212; see <a href="https://deelam.github.io/wordpress/api/inputrecord/">Input records</a>. There is no limit to the number of input records in a batch or the number of batches in a workflow.</p>
+<p>You can add input records to a batch at any time using the method above or in bulk using a CSV file or JSON &#8212; see the next section for a <a href="#bulk-import">Bulk Importing Example</a>. There is no limit to the number of input records in a batch or the number of batches in a workflow.</p>
 
 
 
@@ -154,7 +154,56 @@ usage: alegion_client.py [-h] action [actionparam [actionparam ...]]
 
 
 
-<p>For more details, check out the <a href="https://deelam.github.io/wordpress/api/">API page</a>.</p>
+<h2 id="bulk-import">Bulk Importing Example</h2>
+
+
+
+<p>To add records based on data from each line in a CSV file, use the <code>addRecordsCsv</code> action:</p>
+
+
+
+<pre class="wp-block-code"><code>> ./alegion_client.py addRecordsCsv BATCH_ID MYRECORDS.CSV</code></pre>
+
+
+
+<p>In the CSV file, the column names depends on the customer-specific workflow. Specific column names are required, and an error will be return if they are missing. A CSV file could look like this:</p>
+
+
+
+<pre class="wp-block-code"><code>myData/title,metadata,url
+Dog,animal-0001,https://images.net/fido.png
+Cat,animal-0002,https://images.net/whiskers.gif</code></pre>
+
+
+
+<p>In this example, note that the slash in <code>myData/title</code> creates a nested JSON object:</p>
+
+
+
+<pre class="wp-block-code"><code>  {
+    "createdAt": "2019-07-22T21:24:11.907Z",
+    "data": {
+      "image1": "https://images.net/fido.png",
+      "myData": {
+        "title": "Dog"
+      }
+    },
+    "id": "fdcf4bd5-9229-40ec-9672-e6de73e2e31c",
+    "metadata": "animal-0001",
+    "status": "queued"
+  }</code></pre>
+
+
+
+<p>For more details about bulk importing, see <a href="https://deelam.github.io/wordpress/api/inputrecord/">Input records</a>.</p>
+
+
+
+<p><strong>[TODO: Create a workflow for customer testing with known field names and that produces ResultRecords.]</strong></p>
+
+
+
+<p>For more about the API, start at the <a href="https://deelam.github.io/wordpress/api/">API page</a>.</p>
 ]]></content:encoded>
 										</item>
 		<item>
