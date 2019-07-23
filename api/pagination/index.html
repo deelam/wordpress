@@ -391,22 +391,15 @@ li.current-menu-item {
 </script></div>		</aside></div>
 				<div class="col-md-8 page-content-wrap ">
 					<div class="row"><div class="col-md-12"><h1 class="hestia-title title-in-content ">Pagination</h1></div></div>
-<p>Some API responses are large enough that it makes sense to paginate them. Any
-paginated response will provide a <code>Link</code> header and a <code>X-Total-Count</code> header
-and will accept pagination related paramaters in the query string.</p>
+<p>Some API requests produce large responses, where pagination may be useful. Any paginated response will provide a <code>Link</code> header and a <code>X-Total-Count</code> header and will accept pagination related parameters in the query string.</p>
 
 
 
-<h3><span id="Pagination_Parameters">
-<a href="http://demo-api.alegion.com/batch-management.html#pagination-parameters"></a>Pagination Parameters</span></h3>
+<h3><span id="Pagination_Parameters">Pagination Parameters</span></h3>
 
 
 
-<ul><li>
-<code>page</code>: Which page number to return</li><li>
-<code>pageSize</code>: How many records per page</li><li>
-<code>sort</code>: <code>-createdAt</code> or <code>+createdAt</code>, to sort by <code>createdAt</code> descending or ascending, respectively</li></ul><h3><span id="Example_Pagination_Headers">
-<a href="http://demo-api.alegion.com/batch-management.html#example-pagination-headers"></a>Example Pagination Headers</span></h3>
+<ul><li><code>pageSize</code>: the max number of records per page</li><li><code>page</code>: the page number to return</li><li><code>sort</code>: use <code>-createdAt</code> (descending) or <code>+createdAt</code> (ascending) to sort by <code>createdAt</code>.</li></ul><h3><span id="Example_Pagination_Response_Headers">Example Pagination Response Headers<a href="http://demo-api.alegion.com/batch-management.html#common-errors"></a></span></h3>
 
 
 
@@ -414,13 +407,8 @@ and will accept pagination related paramaters in the query string.</p>
     <https://app.alegion.com/api/v1/batches/{batchId}/records?page=1&pageSize=20&sort=-createdAt>;rel="prev",
     <https://app.alegion.com/api/v1/batches/{batchId}/records?page=3&pageSize=20&sort=-createdAt>;rel="next",
     <https://app.alegion.com/api/v1/batches/{batchId}/records?page=3&pageSize=20&sort=-createdAt>;rel="last"
-X-Total-Count: 42
-</code></pre>
 
-
-
-<h2><span id="lwptoc">
-<a href="http://demo-api.alegion.com/batch-management.html#common-errors"></a></span></h2>
+X-Total-Count: 42</code></pre>
 			</div>
 					</div>
 	</article></div>
