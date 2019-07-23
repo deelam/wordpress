@@ -12,7 +12,7 @@
 	<atom:link href="https://deelam.github.io/wordpress/category/api/feed/" rel="self" type="application/rss+xml" />
 	<link>http://deelam.github.io/wordpress/</link>
 	<description>Alegion Platform</description>
-	<lastBuildDate>Fri, 19 Jul 2019 01:45:51 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 22 Jul 2019 20:47:10 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
@@ -100,28 +100,21 @@
 				<category><![CDATA[API]]></category>
 
 		<guid isPermaLink="false">https://deelam.github.io/wordpress/?page_id=132</guid>
-				<description><![CDATA[Some API responses are large enough that it makes sense to paginate them. Any paginated response will provide a Link header and a X-Total-Count header and will accept pagination related paramaters in the query string. Pagination Parameters page: Which page number to return pageSize: How many records per page sort:<a class="moretag" href="https://deelam.github.io/wordpress/api/pagination/"> Read more&#8230;</a>]]></description>
+				<description><![CDATA[Some API requests produce large responses, where pagination may be useful. Any paginated response will provide a Link header and a X-Total-Count header and will accept pagination related parameters in the query string. Pagination Parameters pageSize: the max number of records per page page: the page number to return sort:<a class="moretag" href="https://deelam.github.io/wordpress/api/pagination/"> Read more&#8230;</a>]]></description>
 								<content:encoded><![CDATA[
-<p>Some API responses are large enough that it makes sense to paginate them. Any
-paginated response will provide a <code>Link</code> header and a <code>X-Total-Count</code> header
-and will accept pagination related paramaters in the query string.</p>
+<p>Some API requests produce large responses, where pagination may be useful. Any paginated response will provide a <code>Link</code> header and a <code>X-Total-Count</code> header and will accept pagination related parameters in the query string.</p>
 
 
 
-<h3>
-<a href="http://demo-api.alegion.com/batch-management.html#pagination-parameters"></a>Pagination Parameters</h3>
+<h3>Pagination Parameters</h3>
 
 
 
-<ul><li>
-<code>page</code>: Which page number to return</li><li>
-<code>pageSize</code>: How many records per page</li><li>
-<code>sort</code>: <code>-createdAt</code> or <code>+createdAt</code>, to sort by <code>createdAt</code> descending or ascending, respectively</li></ul>
+<ul><li><code>pageSize</code>: the max number of records per page</li><li><code>page</code>: the page number to return</li><li><code>sort</code>: use <code>-createdAt</code> (descending) or <code>+createdAt</code> (ascending) to sort by <code>createdAt</code>.</li></ul>
 
 
 
-<h3>
-<a href="http://demo-api.alegion.com/batch-management.html#example-pagination-headers"></a>Example Pagination Headers</h3>
+<h3>Example Pagination Response Headers<a href="http://demo-api.alegion.com/batch-management.html#common-errors"></a></h3>
 
 
 
@@ -129,13 +122,8 @@ and will accept pagination related paramaters in the query string.</p>
     &lt;https://app.alegion.com/api/v1/batches/{batchId}/records?page=1&amp;pageSize=20&amp;sort=-createdAt>;rel="prev",
     &lt;https://app.alegion.com/api/v1/batches/{batchId}/records?page=3&amp;pageSize=20&amp;sort=-createdAt>;rel="next",
     &lt;https://app.alegion.com/api/v1/batches/{batchId}/records?page=3&amp;pageSize=20&amp;sort=-createdAt>;rel="last"
-X-Total-Count: 42
-</code></pre>
 
-
-
-<h2>
-<a href="http://demo-api.alegion.com/batch-management.html#common-errors"></a></h2>
+X-Total-Count: 42</code></pre>
 ]]></content:encoded>
 										</item>
 		<item>
