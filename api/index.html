@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-US"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="profile" href="http://gmpg.org/xfn/11"><title>API – Developer Documentation</title><link rel="dns-prefetch" href="//s.w.org"><link rel="alternate" type="application/rss+xml" title="Developer Documentation » Feed" href="https://deelam.github.io/wordpress/feed/"><link rel="alternate" type="application/rss+xml" title="Developer Documentation » Comments Feed" href="https://deelam.github.io/wordpress/comments/feed/"><link rel="stylesheet" id="wp-block-library-css" href="https://deelam.github.io/wordpress/wp-includes/css/dist/block-library/style.min.css" type="text/css" media="all"><link rel="stylesheet" id="kadence-blocks-style-css-css" href="https://deelam.github.io/wordpress/wp-content/plugins/kadence-blocks/dist/blocks.style.build.css" type="text/css" media="all"><link rel="stylesheet" id="themeisle-block_styles-css" href="https://deelam.github.io/wordpress/wp-content/plugins/otter-blocks/vendor/codeinwp/gutenberg-blocks/build/style.css" type="text/css" media="all"><link rel="stylesheet" id="lwptoc-main-css" href="https://deelam.github.io/wordpress/wp-content/plugins/luckywp-table-of-contents/front/assets/main.min.css" type="text/css" media="all"><link rel="stylesheet" id="widgetopts-styles-css" href="https://deelam.github.io/wordpress/wp-content/plugins/widget-options/assets/css/widget-options.css" type="text/css" media="all"><link rel="stylesheet" id="bootstrap-css" href="https://deelam.github.io/wordpress/wp-content/themes/hestia/assets/bootstrap/css/bootstrap.min.css" type="text/css" media="all"><link rel="stylesheet" id="hestia-font-sizes-css" href="https://deelam.github.io/wordpress/wp-content/themes/hestia/assets/css/font-sizes.min.css" type="text/css" media="all"><link rel="stylesheet" id="font-awesome-css" href="https://deelam.github.io/wordpress/wp-content/themes/hestia/assets/font-awesome/css/font-awesome.min.css" type="text/css" media="all"><link rel="stylesheet" id="hestia_style-css" href="https://deelam.github.io/wordpress/wp-content/themes/hestia/style.min.css" type="text/css" media="all"><style id="hestia_style-inline-css" type="text/css">
+<html lang="en-US"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="profile" href="http://gmpg.org/xfn/11"><title>API – Developer Documentation</title><link rel="dns-prefetch" href="//s.w.org"><link rel="alternate" type="application/rss+xml" title="Developer Documentation » Feed" href="https://deelam.github.io/wordpress/feed/"><link rel="alternate" type="application/rss+xml" title="Developer Documentation » Comments Feed" href="https://deelam.github.io/wordpress/comments/feed/"><link rel="stylesheet" id="wp-block-library-css" href="https://deelam.github.io/wordpress/wp-includes/css/dist/block-library/style.min.css" type="text/css" media="all"><link rel="stylesheet" id="kadence-blocks-style-css-css" href="https://deelam.github.io/wordpress/wp-content/plugins/kadence-blocks/dist/blocks.style.build.css" type="text/css" media="all"><link rel="stylesheet" id="themeisle-block_styles-css" href="https://deelam.github.io/wordpress/wp-content/plugins/otter-blocks/vendor/codeinwp/gutenberg-blocks/build/style.css" type="text/css" media="all"><link rel="stylesheet" id="lwptoc-main-css" href="https://deelam.github.io/wordpress/wp-content/plugins/luckywp-table-of-contents/front/assets/main.min.css" type="text/css" media="all"><link rel="stylesheet" id="widgetopts-styles-css" href="https://deelam.github.io/wordpress/wp-content/plugins/widget-options/assets/css/widget-options.css" type="text/css" media="all"><link rel="stylesheet" id="wpa-style-css" href="https://deelam.github.io/wordpress/wp-content/plugins/wp-accessibility/css/wpa-style.css" type="text/css" media="all"><link rel="stylesheet" id="ui-font.css-css" href="https://deelam.github.io/wordpress/wp-content/plugins/wp-accessibility/toolbar/fonts/css/a11y-toolbar.css" type="text/css" media="all"><link rel="stylesheet" id="ui-a11y.css-css" href="https://deelam.github.io/wordpress/wp-content/plugins/wp-accessibility/toolbar/css/a11y.css" type="text/css" media="all"><link rel="stylesheet" id="ui-fontsize.css-css" href="https://deelam.github.io/wordpress/wp-content/plugins/wp-accessibility/toolbar/css/a11y-fontsize.css" type="text/css" media="all"><link rel="stylesheet" id="bootstrap-css" href="https://deelam.github.io/wordpress/wp-content/themes/hestia/assets/bootstrap/css/bootstrap.min.css" type="text/css" media="all"><link rel="stylesheet" id="hestia-font-sizes-css" href="https://deelam.github.io/wordpress/wp-content/themes/hestia/assets/css/font-sizes.min.css" type="text/css" media="all"><link rel="stylesheet" id="font-awesome-css" href="https://deelam.github.io/wordpress/wp-content/themes/hestia/assets/font-awesome/css/font-awesome.min.css" type="text/css" media="all"><link rel="stylesheet" id="hestia_style-css" href="https://deelam.github.io/wordpress/wp-content/themes/hestia/style.min.css" type="text/css" media="all"><style id="hestia_style-inline-css" type="text/css">
 .hestia-top-bar, .hestia-top-bar .widget.widget_shopping_cart .cart_list {
 			background-color: #363537
 		}
@@ -404,12 +404,43 @@ li.current-menu-item {
 		<button class="hestia-scroll-to-top">
 			<i class="fa fa-angle-double-up" aria-hidden="true"></i>
 		</button>
-		<script type="text/javascript">
+		
+<script type="text/javascript">
+//<![CDATA[
+(function( $ ) { 'use strict';
+	var insert_a11y_toolbar = '<!-- a11y toolbar -->';
+	insert_a11y_toolbar += '<div class="a11y-responsive a11y-toolbar ltr right">';
+	insert_a11y_toolbar += '<ul class="a11y-toolbar-list">';insert_a11y_toolbar += '<li class="a11y-toolbar-list-item"><button type="button" class="a11y-toggle-contrast toggle-contrast" id="is_normal_contrast" aria-pressed="false"><span class="offscreen">Toggle High Contrast<span class="aticon aticon-adjust" aria-hidden="true">';insert_a11y_toolbar += '<li class="a11y-toolbar-list-item"><button type="button" class="a11y-toggle-fontsize toggle-fontsize" id="is_normal_fontsize" aria-pressed="false"><span class="offscreen">Toggle Font size<span class="aticon aticon-font" aria-hidden="true">';
+	insert_a11y_toolbar += '';
+	insert_a11y_toolbar += '';
+	insert_a11y_toolbar += '<!-- // a11y toolbar -->';
+	$( document ).find( '#main-navigation' ).prepend( insert_a11y_toolbar );
+}(jQuery));
+//]]>
+</script><script type="text/javascript">
 /* <![CDATA[ */
 var sticky_anything_engage = {"element":"#main-navigation","topspace":"1","minscreenwidth":"800","maxscreenwidth":"999999","zindex":"1","legacymode":"","dynamicmode":"","debugmode":"","pushup":"","adminbar":"1"};
 /* ]]> */
-</script><script type="text/javascript" src="https://deelam.github.io/wordpress/wp-content/plugins/sticky-menu-or-anything-on-scroll/assets/js/stickThis.js"></script><script type="text/javascript" src="https://deelam.github.io/wordpress/wp-content/themes/hestia/assets/bootstrap/js/bootstrap.min.js"></script><script type="text/javascript" src="https://deelam.github.io/wordpress/wp-includes/js/jquery/ui/core.min.js"></script><script type="text/javascript">
+</script><script type="text/javascript" src="https://deelam.github.io/wordpress/wp-content/plugins/sticky-menu-or-anything-on-scroll/assets/js/stickThis.js"></script><script type="text/javascript">
+/* <![CDATA[ */
+var a11y_stylesheet_path = "https:\/\/deelam.github.io\/wordpress\/wp-content\/plugins\/wp-accessibility\/toolbar\/css\/a11y-contrast.css";
+/* ]]> */
+</script><script type="text/javascript" src="https://deelam.github.io/wordpress/wp-content/plugins/wp-accessibility/toolbar/js/a11y.js"></script><script type="text/javascript">
+/* <![CDATA[ */
+var wpalabels = {"s":"Search","author":"Name","email":"Email","url":"Website","comment":"Comment"};
+/* ]]> */
+</script><script type="text/javascript" src="https://deelam.github.io/wordpress/wp-content/plugins/wp-accessibility/js/wpa.labels.js"></script><script type="text/javascript" src="https://deelam.github.io/wordpress/wp-content/plugins/wp-accessibility/js/longdesc.button.js"></script><script type="text/javascript" src="https://deelam.github.io/wordpress/wp-content/plugins/wp-accessibility/js/current-menu-item.js"></script><script type="text/javascript" src="https://deelam.github.io/wordpress/wp-content/themes/hestia/assets/bootstrap/js/bootstrap.min.js"></script><script type="text/javascript" src="https://deelam.github.io/wordpress/wp-includes/js/jquery/ui/core.min.js"></script><script type="text/javascript">
 /* <![CDATA[ */
 var requestpost = {"ajaxurl":"https:\/\/deelam.github.io\/wordpress\/wp-admin\/admin-ajax.php","disable_autoslide":"","masonry":""};
 /* ]]> */
-</script><script type="text/javascript" src="https://deelam.github.io/wordpress/wp-content/themes/hestia/assets/js/script.min.js"></script></body></html>
+</script><script type="text/javascript" src="https://deelam.github.io/wordpress/wp-content/themes/hestia/assets/js/script.min.js"></script><script type="text/javascript">
+//<![CDATA[
+(function( $ ) { 'use strict';
+	
+	$('a').removeAttr('target');
+	$('html').attr( 'lang','en-US' ); $('html').attr( 'dir','ltr' )
+	$('input,a,select,textarea,button').removeAttr('tabindex');
+	
+}(jQuery));
+//]]>
+</script></body></html>
