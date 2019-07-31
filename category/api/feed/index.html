@@ -12,7 +12,7 @@
 	<atom:link href="https://deelam.github.io/wordpress/category/api/feed/" rel="self" type="application/rss+xml" />
 	<link>http://deelam.github.io/wordpress/</link>
 	<description>Alegion Platform</description>
-	<lastBuildDate>Fri, 26 Jul 2019 14:50:24 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 29 Jul 2019 19:42:49 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
@@ -534,50 +534,6 @@ X-Total-Count: 42</code></pre>
 ]]></content:encoded>
 										</item>
 		<item>
-		<title>Workflow</title>
-		<link>https://deelam.github.io/wordpress/api/workflow/</link>
-				<pubDate>Thu, 11 Jul 2019 21:04:55 +0000</pubDate>
-		<dc:creator><![CDATA[dlam]]></dc:creator>
-				<category><![CDATA[API]]></category>
-
-		<guid isPermaLink="false">http://deelam.github.io/wordpress/:8000/?page_id=16</guid>
-				<description><![CDATA[To get a list of available workflows, issue a GET request to the /api/v1/workflows endpoint (results will be paginated). Retrieve the id of the desired workflow from the response body to use as the workflowId when creating or modifying a Batch. Example request Example response]]></description>
-								<content:encoded><![CDATA[
-<p>To get a list of available workflows, issue a GET request to the <code><a href="http://demo-api.alegion.com/#operation--api-v1-workflows-get">/api/v1/workflows</a></code> endpoint (results will be <a href="https://deelam.github.io/wordpress/api/pagination/">paginated</a>). Retrieve the <code>id</code> of the desired workflow from the response body to use as the <code>workflowId</code> when <a href="https://deelam.github.io/wordpress/api/batch/">creating or modifying a Batch</a>.</p>
-
-
-
-<h3>Example request</h3>
-
-
-
-<pre class="wp-block-code"><code>curl -X GET \
-  https://app.alegion.com/api/v1/workflows \
-  -H 'Authorization: Bearer {access_token}'
-</code></pre>
-
-
-
-<h3>Example response</h3>
-
-
-
-<pre class="wp-block-code"><code>[
-  {
-    "id": "dac402db-b594-4f44-a2c7-87a535cf26f9",
-    "name": "Workflow name",
-    "description": "Workflow description",
-    "isActive": true,
-    "isVisible": true,
-    "isArchived": false,
-    "createdAt": "2018-09-26T18:35:38.188Z",
-    "isLimitWorkerToOncePerInputRecord": false
-  }
-]
-</code></pre>
-]]></content:encoded>
-										</item>
-		<item>
 		<title>Batch</title>
 		<link>https://deelam.github.io/wordpress/api/batch/</link>
 				<pubDate>Thu, 11 Jul 2019 21:04:55 +0000</pubDate>
@@ -810,6 +766,50 @@ X-Total-Count: 42</code></pre>
 ]]></content:encoded>
 										</item>
 		<item>
+		<title>Workflow</title>
+		<link>https://deelam.github.io/wordpress/api/workflow/</link>
+				<pubDate>Thu, 11 Jul 2019 21:04:55 +0000</pubDate>
+		<dc:creator><![CDATA[dlam]]></dc:creator>
+				<category><![CDATA[API]]></category>
+
+		<guid isPermaLink="false">http://deelam.github.io/wordpress/:8000/?page_id=16</guid>
+				<description><![CDATA[To get a list of available workflows, issue a GET request to the /api/v1/workflows endpoint (results will be paginated). Retrieve the id of the desired workflow from the response body to use as the workflowId when creating or modifying a Batch. Example request Example response]]></description>
+								<content:encoded><![CDATA[
+<p>To get a list of available workflows, issue a GET request to the <code><a href="http://demo-api.alegion.com/#operation--api-v1-workflows-get">/api/v1/workflows</a></code> endpoint (results will be <a href="https://deelam.github.io/wordpress/api/pagination/">paginated</a>). Retrieve the <code>id</code> of the desired workflow from the response body to use as the <code>workflowId</code> when <a href="https://deelam.github.io/wordpress/api/batch/">creating or modifying a Batch</a>.</p>
+
+
+
+<h3>Example request</h3>
+
+
+
+<pre class="wp-block-code"><code>curl -X GET \
+  https://app.alegion.com/api/v1/workflows \
+  -H 'Authorization: Bearer {access_token}'
+</code></pre>
+
+
+
+<h3>Example response</h3>
+
+
+
+<pre class="wp-block-code"><code>[
+  {
+    "id": "dac402db-b594-4f44-a2c7-87a535cf26f9",
+    "name": "Workflow name",
+    "description": "Workflow description",
+    "isActive": true,
+    "isVisible": true,
+    "isArchived": false,
+    "createdAt": "2018-09-26T18:35:38.188Z",
+    "isLimitWorkerToOncePerInputRecord": false
+  }
+]
+</code></pre>
+]]></content:encoded>
+										</item>
+		<item>
 		<title>Authentication</title>
 		<link>https://deelam.github.io/wordpress/api/authentication/</link>
 				<pubDate>Thu, 11 Jul 2019 21:04:54 +0000</pubDate>
@@ -863,12 +863,12 @@ X-Total-Count: 42</code></pre>
 <style id="kt-blocks_4b37db-90" type="text/css">.kt-accordion-id_4b37db-90 .kt-accordion-panel-inner {background:#ffffff;border-width:0px 0px 0px 0px;}.kt-accordion-id_4b37db-90 .kt-blocks-accordion-header {background:#f2f2f2;border-color:#555555 #555555 #555555 #555555;font-size:18px;line-height:24px;border-radius:6px 6px 6px 6px;border-width:0px 0px 0px 0px;padding:14px 16px 14px 16px;margin-top:10px;}.kt-accordion-id_4b37db-90 .kt-blocks-accordion-header .kt-btn-svg-icon svg {width:18px;height:18px;}.kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-icon-trigger:after, .kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-icon-trigger:before {background:#f2f2f2;}.kt-accordion-id_4b37db-90 .kt-blocks-accordion-header:hover, .kt-accordion-id_4b37db-90 .kt-blocks-accordion-header:focus {color:#444444;background:#eeeeee;border-color:#eeeeee #eeeeee #eeeeee #eeeeee;}.kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basiccircle ):not( .kt-accodion-icon-style-xclosecircle ):not( .kt-accodion-icon-style-arrowcircle ) .kt-blocks-accordion-header:hover .kt-blocks-accordion-icon-trigger:after, .kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basiccircle ):not( .kt-accodion-icon-style-xclosecircle ):not( .kt-accodion-icon-style-arrowcircle ) .kt-blocks-accordion-header:hover .kt-blocks-accordion-icon-trigger:before, .kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basiccircle ):not( .kt-accodion-icon-style-xclosecircle ):not( .kt-accodion-icon-style-arrowcircle ) .kt-blocks-accordion-header:focus .kt-blocks-accordion-icon-trigger:after, .kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basiccircle ):not( .kt-accodion-icon-style-xclosecircle ):not( .kt-accodion-icon-style-arrowcircle ) .kt-blocks-accordion-header:focus .kt-blocks-accordion-icon-trigger:before {background:#444444;}.kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-header:hover .kt-blocks-accordion-icon-trigger, .kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-header:focus .kt-blocks-accordion-icon-trigger {background:#444444;}.kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-header:hover .kt-blocks-accordion-icon-trigger:after, .kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-header:hover .kt-blocks-accordion-icon-trigger:before, .kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-header:focus .kt-blocks-accordion-icon-trigger:after, .kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-header:focus .kt-blocks-accordion-icon-trigger:before {background:#eeeeee;}.kt-accordion-id_4b37db-90 .kt-blocks-accordion-header.kt-accordion-panel-active {color:#ffffff;background:#f3690e;border-color:#f3690e #f3690e #f3690e #f3690e;}.kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basiccircle ):not( .kt-accodion-icon-style-xclosecircle ):not( .kt-accodion-icon-style-arrowcircle ) .kt-blocks-accordion-header.kt-accordion-panel-active .kt-blocks-accordion-icon-trigger:after, .kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basiccircle ):not( .kt-accodion-icon-style-xclosecircle ):not( .kt-accodion-icon-style-arrowcircle ) .kt-blocks-accordion-header.kt-accordion-panel-active .kt-blocks-accordion-icon-trigger:before {background:#ffffff;}.kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-header.kt-accordion-panel-active .kt-blocks-accordion-icon-trigger {background:#ffffff;}.kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-header.kt-accordion-panel-active .kt-blocks-accordion-icon-trigger:after, .kt-accordion-id_4b37db-90:not( .kt-accodion-icon-style-basic ):not( .kt-accodion-icon-style-xclose ):not( .kt-accodion-icon-style-arrow ) .kt-blocks-accordion-header.kt-accordion-panel-active .kt-blocks-accordion-icon-trigger:before {background:#f3690e;}</style>
 <div class="wp-block-kadence-accordion alignwide"><div class="kt-accordion-wrap kt-accordion-wrap kt-accordion-id_4b37db-90 kt-accordion-has-22-panes kt-active-pane-0 kt-accordion-block kt-pane-header-alignment-left kt-accodion-icon-style-basic kt-accodion-icon-side-right" style="max-width:none"><div class="kt-accordion-inner-wrap" data-allow-multiple-open="false" data-start-open="none">
 <div class="wp-block-kadence-pane kt-accordion-pane kt-accordion-pane-21 kt-pane_d6b419-d7"><div class="kt-accordion-header-wrap"><button class="kt-blocks-accordion-header kt-acccordion-button-label-show"><div class="kt-blocks-accordion-title-wrap"><div style="display:inline-flex;justify-content:center;align-items:center" class="kt-btn-svg-icon kt-btn-svg-icon-fe_alertCircle kt-btn-side-left"><svg style="display:inline-block;vertical-align:middle" viewbox="0 0 24 24" height="24" width="24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></svg></div><span class="kt-blocks-accordion-title">Need a customerId, tenantId, or realm?</span></div><div class="kt-blocks-accordion-icon-trigger"></div></button></div><div class="kt-accordion-panel"><div class="kt-accordion-panel-inner">
-<p>Contact an Alegion representative to get your customer ID. This is synonymous with <code>tenantId</code>  <br>(in the <a href="http://demo-api.alegion.com/#operation--api-v1-batches--batchId--records-get">API documentation</a>) and <code>realm</code> (in the <code>https://app.alegion.com/auth/realms</code> URL).</p>
+<p>Contact an Alegion representative to get your customer ID. This is synonymous with <code>tenantId</code> (in the <a href="http://demo-api.alegion.com/#operation--api-v1-batches--batchId--records-get">API documentation</a>) and <code>realm</code> (in the <code>https://app.alegion.com/auth/realms</code> URL).</p>
 </div></div></div>
 
 
 
-<div class="wp-block-kadence-pane kt-accordion-pane kt-accordion-pane-22 kt-pane_a003dd-3d"><div class="kt-accordion-header-wrap"><button class="kt-blocks-accordion-header kt-acccordion-button-label-show"><div class="kt-blocks-accordion-title-wrap"><div style="display:inline-flex;justify-content:center;align-items:center" class="kt-btn-svg-icon kt-btn-svg-icon-fe_alertCircle kt-btn-side-left"><svg style="display:inline-block;vertical-align:middle" viewbox="0 0 24 24" height="24" width="24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></svg></div><span class="kt-blocks-accordion-title">Token Expired?</span></div><div class="kt-blocks-accordion-icon-trigger"></div></button></div><div class="kt-accordion-panel"><div class="kt-accordion-panel-inner">
+<div class="wp-block-kadence-pane kt-accordion-pane kt-accordion-pane-22 kt-pane_a003dd-3d"><div class="kt-accordion-header-wrap"><button class="kt-blocks-accordion-header kt-acccordion-button-label-show"><div class="kt-blocks-accordion-title-wrap"><div style="display:inline-flex;justify-content:center;align-items:center" class="kt-btn-svg-icon kt-btn-svg-icon-fe_alertCircle kt-btn-side-left"><svg style="display:inline-block;vertical-align:middle" viewbox="0 0 24 24" height="24" width="24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></svg></div><span class="kt-blocks-accordion-title">HTTP 401 error? (or Expired Token?)</span></div><div class="kt-blocks-accordion-icon-trigger"></div></button></div><div class="kt-accordion-panel"><div class="kt-accordion-panel-inner">
 <p>Access tokens have a defined lifespan, and requests made using an expired token will fail with an <code>HTTP 401</code> error. Simply make the authentication request again and use the new access token in all subsequent requests.</p>
 </div></div></div>
 </div></div></div>
