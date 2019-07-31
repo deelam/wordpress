@@ -395,7 +395,7 @@ li.current-menu-item {
 </script></div>		</aside></div>
 				<div class="col-md-8 page-content-wrap ">
 					<div class="row"><div class="col-md-12"><h1 class="hestia-title title-in-content ">Python Test Script</h1></div></div>
-<p>To test the Alegion Platform from your account, try out <a href="https://deelam.github.io/wordpress/wp-content/uploads/alegion_client.py">this alegion_client.py</a> Python 3 script. The following shows its usage in a Linux environment.</p>
+<p>To test the Alegion Platform from your account, try out <a href="https://deelam.github.io/wordpress/wp-content/uploads/alegion_client.py">this alegion_client.py</a> Python 3 script.</p>
 
 
 
@@ -419,6 +419,10 @@ li.current-menu-item {
 
 
 
+<p>The following shows the script’s usage in a Linux environment.</p>
+
+
+
 <pre class="wp-block-code"><code>> ./alegion_client.py -h
 usage: alegion_client.py [-h] action [actionparam [actionparam ...]]
 <snip></code></pre>
@@ -429,11 +433,11 @@ usage: alegion_client.py [-h] action [actionparam [actionparam ...]]
 
 
 
-<p>The first action that must be done before anything else is <code>cred</code> to set credentials (replace all capital words with your credentials, and use quotes around your username and password in case of odd characters):</p>
+<p>The first action that must be done before anything else is <code>cred</code> to set credentials (replace all capital words with your credentials, and use single quotes around your username and password in case of odd characters):</p>
 
 
 
-<pre class="wp-block-preformatted">> ./alegion_client.py cred MY_REALM 'MY_USERNAME' 'MY_PASSWORD'</pre>
+<pre class="wp-block-preformatted">> ./alegion_client.py cred 'MY_USERNAME' 'MY_PASSWORD'</pre>
 
 
 
