@@ -4,7 +4,7 @@ Basic script for testing Alegion API endpoints.
 
 Run this script with the '-h' argument for a description of its usage.
 The first action that must be done before anything else is 'cred'
-to set credentials like so: ./alegion_client.py cred MY_REALM 'MY_USERNAME' 'MY_PASSWORD'
+to set credentials like so: ./alegion_client.py cred 'MY_USERNAME' 'MY_PASSWORD'
 This will create a alegion-cred.json file that will be used for authentication for
 subsequent actions. Use quotes around your username and password in case of odd characters.
 Use the 'cred' action again to override the file if your credentials change.
