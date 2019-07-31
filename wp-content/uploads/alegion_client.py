@@ -15,8 +15,7 @@ When the access_token is expired, authentication will be automatically performed
 and the alegion-auth.json file will be updated with the authentication response
 from the server and will be used for all actions.
 
-Author: Dung Lam
-Date: 2019-07-17
+Version: 2019.07.31
 """
 
 import os
@@ -24,92 +23,97 @@ import time
 import sys
 import json
 import argparse
-#from optparse import OptionParser
 import requests
 
-##======================= Credentials and Authentication ============================
+# ======================= Credentials and Authentication ============================
 
-def set_cred(realm, username, password):
-    content={
-        "realm": realm,
+
+def set_cred(username, password):
+    content = {
         "username": username,
         "password": password
     }
     with open(credfile, 'w') as outfile:
         json.dump(content, outfile, indent=2)
 
+
 def read_cread():
     if not os.path.exists(credfile):
         return False
     with open(credfile) as jsonfile:
-        cred=json.load(jsonfile)
+        cred = json.load(jsonfile)
         globals().update(cred)
         return True
 
-def get_auth_token(realm, un, pwd):
+
+def get_auth_token(un, pwd):
     print("Getting new access_token")
     headers = {
-        "content-type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
         "cache-control": "no-cache"
     }
     payload = {
-        "client_id": "platform-web",
         "username": un,
         "password": pwd,
-        "grant_type": "password"
     }
     response = requests.request("POST",
-        "https://app.alegion.com/auth/realms/{}/protocol/openid-connect/token".format(realm),
-        headers=headers, data=payload)
+        "https://app.alegion.com/api/v1/login",
+        headers=headers, data=json.dumps(payload))
 
     if response.status_code == 200:
-        jsonresponse=json.loads(response.content);
+        jsonresponse = json.loads(response.content)
         with open(authfile, 'w') as outfile:
             json.dump(jsonresponse, outfile, indent=2)
         new_token = jsonresponse["access_token"]
         return new_token
     else:
         print("Error when asking for an access_token\n",
-            response.status_code, response.text)
+              response.status_code, response.text)
         sys.exit(1)
+
 
 def load_auth_token():
     if not os.path.exists(authfile):
         return None
-    fileage=time.time()-os.stat(authfile).st_mtime
-    #print("  access_token age:", fileage)
+    fileage = time.time()-os.stat(authfile).st_mtime
+    # print("  access_token age:", fileage)
     with open(authfile) as jsonfile:
-        data=json.load(jsonfile)
-        if fileage>data["expires_in"]:
+        data = json.load(jsonfile)
+        if fileage > data["expires_in"]:
             return None
         else:
             return data["access_token"]
 
-##===================== API requests ======================================
+# ===================== API requests ======================================
 
-def request_and_print_response(req_type, url, headers={}, bodydata=None, files=None, pageSize=None, pageNum=None, sort=None):
+
+def request_and_print_response(req_type, url, headers={}, bodydata=None,
+        files=None, pageSize=None, pageNum=None, sort=None):
     if "authorization" not in headers:
-        headers["authorization"]="Bearer %s" % token
+        headers["authorization"] = "Bearer %s" % token
     if "cache-control" not in headers:
-        headers["cache-control"]="no-cache"
+        headers["cache-control"] = "no-cache"
     if bodydata and "content-type" not in headers:
-        headers["content-type"]="application/json"
-    #headers["accepts"]="text/csv"
+        headers["content-type"] = "application/json"
+    # headers["accepts"]="text/csv"
 
     print("-------------------------------------------------")
-    print("Request URL: ", url);
-    #print("  headers:", headers)
-    reqParams={};
+    print("Request URL: ", url)
+    # print("  headers:", headers)
+    reqParams = {}
     if(pageSize):
-        reqParams['pageSize']=pageSize;
+        reqParams['pageSize'] = pageSize
     if(pageNum):
-        reqParams['page']=pageNum;
+        reqParams['page'] = pageNum
     if(sort):
-        reqParams['sort']=sort;
-    if(len(reqParams)>0):
-        print("  paginating with pageSize:",pageSize," pageNum:",pageNum," sort:",sort)
+        reqParams['sort'] = sort
+    if(len(reqParams) > 0):
+        print("  paginating with pageSize:", pageSize,
+              " pageNum:", pageNum, " sort:", sort)
 
-    response = requests.request(req_type, url, headers=headers, params=reqParams, data=bodydata, files=files)
+    response = requests.request(
+        req_type, url, headers=headers, params=reqParams,
+        data=bodydata, files=files)
     # https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
     if response.status_code >= 300:
         print("Error: ", response, response.text)
@@ -117,90 +121,115 @@ def request_and_print_response(req_type, url, headers={}, bodydata=None, files=N
     else:
         print("-------------------------------------------------")
         #  https://stackoverflow.com/questions/24533018/get-a-header-with-python-and-convert-in-json-requests-urllib2-json
-        print("Response headers:", json.dumps(dict(response.headers), indent=2))
+        print("Response headers:", json.dumps(
+            dict(response.headers), indent=2))
         print("-------------------------------------------------")
         print("Response:", json.dumps(json.loads(response.content),
-            indent=2, sort_keys=True))
+                                      indent=2, sort_keys=True))
+
 
 def list_workflows(pageSize=None, pageNum=None, sort=None):
     request_and_print_response("GET",
-        alegion_baseurl+"/workflows",
-        pageSize=pageSize, pageNum=pageNum, sort=sort)
+                               alegion_baseurl+"/workflows",
+                               pageSize=pageSize, pageNum=pageNum, sort=sort)
+
 
 def list_batches(workflowId):
     request_and_print_response("GET",
-        alegion_baseurl+"/workflows/{}/batches".format(workflowId))
+                               alegion_baseurl+"/workflows/{}/batches"
+                               .format(workflowId))
+
 
 def create_batch(workflowId, name):
-    payload={
+    payload = {
         "name": name
     }
     request_and_print_response("POST",
-        alegion_baseurl+"/workflows/{}/batches".format(workflowId),
-        bodydata=json.dumps(payload))
+                               alegion_baseurl +
+                               "/workflows/{}/batches".format(workflowId),
+                               bodydata=json.dumps(payload))
+
 
 def create_batch_json(workflowId, payload_string):
-    payload=json.loads(payload_string)
+    payload = json.loads(payload_string)
     print("Payload:", json.dumps(payload, indent=2, sort_keys=True))
     request_and_print_response("POST",
-        alegion_baseurl+"/workflows/{}/batches".format(workflowId),
-        bodydata=json.dumps(payload))
+                               alegion_baseurl +
+                               "/workflows/{}/batches".format(workflowId),
+                               bodydata=json.dumps(payload))
+
 
 def get_batch(batchId):
     request_and_print_response("GET",
-        alegion_baseurl+"/batches/{}".format(batchId))
+                               alegion_baseurl+"/batches/{}".format(batchId))
+
 
 def edit_batch(batchId, payload_string):
-    payload=json.loads(payload_string)
+    payload = json.loads(payload_string)
     print("Payload:", json.dumps(payload, indent=2, sort_keys=True))
     request_and_print_response("PUT",
-        alegion_baseurl+"/batches/{}".format(batchId),
-        bodydata=json.dumps(payload))
+                               alegion_baseurl+"/batches/{}".format(batchId),
+                               bodydata=json.dumps(payload))
+
 
 def add_record(batchId, payload_string):
-    payload=json.loads(payload_string)
+    payload = json.loads(payload_string)
     print("Payload:", json.dumps(payload, indent=2, sort_keys=True))
     request_and_print_response("POST",
-        alegion_baseurl+"/batches/{}/records".format(batchId),
-        bodydata=json.dumps(payload))
+                               alegion_baseurl +
+                               "/batches/{}/records".format(batchId),
+                               bodydata=json.dumps(payload))
+
 
 def add_records(batchId, payload_string):
-    payload=json.loads(payload_string)
+    payload = json.loads(payload_string)
     print("Payload:", json.dumps(payload, indent=2, sort_keys=True))
     request_and_print_response("POST",
-        alegion_baseurl+"/batches/{}/records/import".format(batchId),
-        bodydata=json.dumps(payload))
+                               alegion_baseurl +
+                               "/batches/{}/records/import".format(batchId),
+                               bodydata=json.dumps(payload))
+
 
 def add_records_json(batchId, json_filename):
     with open(json_filename) as jsonfile:
-        payload=json.load(jsonfile)
+        payload = json.load(jsonfile)
         request_and_print_response("POST",
-            alegion_baseurl+"/batches/{}/records/import".format(batchId),
-            bodydata=json.dumps(payload))
+                                   alegion_baseurl +
+                                   "/batches/{}/records/import".format(
+                                       batchId),
+                                   bodydata=json.dumps(payload))
+
 
 def add_records_csv(batchId, csv_filename):
     with open(csv_filename, 'r') as csvfile:
         request_and_print_response("POST",
-            alegion_baseurl+"/batches/{}/records/import-csv".format(batchId),
-            files=dict(file=csvfile))
+                                   alegion_baseurl +
+                                   "/batches/{}/records/import-csv".format(
+                                       batchId),
+                                   files=dict(file=csvfile))
+
 
 def list_records(batchId, pageSize=None, pageNum=None, sort=None):
     request_and_print_response("GET",
-        alegion_baseurl+"/batches/{}/records".format(batchId),
-        pageSize=pageSize, pageNum=pageNum, sort=sort)
+                               alegion_baseurl +
+                               "/batches/{}/records".format(batchId),
+                               pageSize=pageSize, pageNum=pageNum, sort=sort)
+
 
 def get_results(batchId, pageSize=None, pageNum=None, sort=None):
     request_and_print_response("GET",
-        alegion_baseurl+"/batches/{}/results".format(batchId),
-        pageSize=pageSize, pageNum=pageNum, sort=sort)
+                               alegion_baseurl +
+                               "/batches/{}/results".format(batchId),
+                               pageSize=pageSize, pageNum=pageNum, sort=sort)
 
-##======================== Main program ==================================
+# ======================== Main program ==================================
 
-credfile='alegion-cred.json'
-authfile='alegion-auth.json'
-alegion_baseurl="https://app.alegion.com/api/v1"
 
-actions={
+credfile = 'alegion-cred.json'
+authfile = 'alegion-auth.json'
+alegion_baseurl = "https://app.alegion.com/api/v1"
+
+actions = {
     "cred": set_cred,
     "workflows": list_workflows,
     "batches": list_batches,
@@ -216,8 +245,8 @@ actions={
     "results": get_results
 }
 
-help_text="""Following are possible actions, their parameters, and what each action does.
-    cred realm username password                : set credentials in the {} file
+help_text = """Following are possible actions, their parameters, and what each action does.
+    cred username password                      : set credentials in the {} file
     workflows [pageSize] [pageNum] [sort]       : list your workflows
     batches workflowId                          : list batches in the specified workflow
     createBatch workflowId name                 : create a new batch with given name in the specified workflow
@@ -235,44 +264,42 @@ Some actions produce a lot of output. Use the optional pageSize, pageNum, and so
 """.format(credfile)
 
 parser = argparse.ArgumentParser(description="Basic commandline tool for testing Alegion API endpoints.",
-   epilog=help_text,
-	formatter_class=argparse.RawDescriptionHelpFormatter)
-#parser.add_argument('cred', nargs=3, help="set credentials for authentication")
+                                 epilog=help_text,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
 parser.add_argument('action', help="action to perform")
-#choices=actions.keys())
 parser.add_argument('actionparam', nargs="*", help="action parameters")
 # parse command line parameters
-args, unknown = parser.parse_known_args() # ignore unknown args
+args, unknown = parser.parse_known_args()  # ignore unknown args
 
 action = args.action
 actionparams = args.actionparam + unknown
-#print("args: ", args, "unknown", unknown)
+# print("args: ", args, "unknown", unknown)
 
 if action not in actions.keys():
     print("!! Unknown action:", action)
     parser.print_help()
     sys.exit(1)
 
-if action!="cred":
+if action != "cred":
     if read_cread():
         token = load_auth_token()
-        if token==None:
+        if token is None:
             # re-authenticate
-            token = get_auth_token(realm, username, password)
-        #print("Got token", token)
+            token = get_auth_token(username, password)
+        # print("Got token", token)
     else:
         print("Please set credentials by using the 'cred' action.")
         sys.exit(2)
 
-func=actions.get(action)
+func = actions.get(action)
 if func:
     print("Calling:", func.__name__, "with parameters:", actionparams)
     func(*actionparams)
 
-    if action=="cred":
+    if action == "cred":
         read_cread()
         # check that credentials are valid
-        token = get_auth_token(realm, username, password)
+        token = get_auth_token(username, password)
 else:
     print("No such action: ", action)
     print("Try one of these: ", actions.keys())
