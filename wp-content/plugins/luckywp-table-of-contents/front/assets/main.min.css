@@ -1,9 +1,6 @@
 .lwptoc {margin: 32px 0;}
 .lwptoc:first-child {margin-top: 16px;}
 .lwptoc_i {padding: 14px 18px 18px;text-align: left;}
-.lwptoc_i DIV A {box-shadow: none !important;border: none !important;text-decoration: none !important;}
-.lwptoc_i DIV A:active, .lwptoc_i DIV A:focus, .lwptoc_i DIV A:hover {box-shadow: none !important;border: none !important;text-decoration: none !important;}
-.lwptoc_i DIV A:hover {border-bottom: 1px dotted !important;}
 .lwptoc_header {margin-bottom: 6px;}
 .rtl .lwptoc_header {text-align: right;}
 .lwptoc_toggle {margin-left: 4px;font-size: 80%;}
@@ -11,13 +8,18 @@
 .lwptoc_toggle:before {content: "[";}
 .lwptoc_toggle:after {content: "]";}
 .lwptoc_toggle_label {margin: 0 1px;}
+.lwptoc_item {margin-top: 2px;}
+.rtl .lwptoc_item {text-align: right;}
+LI.lwptoc_item {margin: 2px 0 0 0 !important;padding: 0 !important;list-style: none !important;}
+.lwptoc_item:first-child {margin-top: 0;}
+LI.lwptoc_item:first-child {margin-top: 0 !important;}
 .lwptoc_item_number {margin-right: 2px;}
 .rtl .lwptoc_item_number {margin-right: 0;margin-left: 2px;}
 .lwptoc_itemWrap .lwptoc_itemWrap {margin: 2px 0 0 14px;}
 .rtl .lwptoc_itemWrap .lwptoc_itemWrap {margin-left: 0;margin-right: 14px;}
-.lwptoc_item {margin-top: 2px;}
-.rtl .lwptoc_item {text-align: right;}
-.lwptoc_item:first-child {margin-top: 0;}
+UL.lwptoc_itemWrap {margin: 0 !important;padding: 0 !important;list-style: none !important;}
+UL.lwptoc_itemWrap UL.lwptoc_itemWrap {margin: 2px 0 0 14px !important;}
+.rtl UL.lwptoc_itemWrap UL.lwptoc_itemWrap {margin-left: 0 !important;margin-right: 14px !important;}
 .lwptoc-autoWidth .lwptoc_i {display: inline-block;}
 .lwptoc-left {float: left;margin-top: 0;margin-right: 32px;}
 .lwptoc-right {float: right;margin-top: 0;margin-left: 32px;}
@@ -26,6 +28,9 @@
 .lwptoc-center {text-align: center;}
 .lwptoc-center .lwptoc_i {margin-left: auto;margin-right: auto;}
 .lwptoc-baseItems .lwptoc_items {font-size: 90%;}
+.lwptoc-notInherit .lwptoc_i DIV A {box-shadow: none !important;border: none !important;text-decoration: none !important;}
+.lwptoc-notInherit .lwptoc_i DIV A:active, .lwptoc-notInherit .lwptoc_i DIV A:focus, .lwptoc-notInherit .lwptoc_i DIV A:hover {box-shadow: none !important;border: none !important;text-decoration: none !important;}
+.lwptoc-notInherit .lwptoc_i DIV A:hover {border-bottom: 1px dotted !important;}
 .lwptoc-light .lwptoc_i {color: #333;background: #fafafa;}
 .lwptoc-light .lwptoc_i A {color: #3175e4;}
 .lwptoc-light .lwptoc_i A:active, .lwptoc-light .lwptoc_i A:focus, .lwptoc-light .lwptoc_i A:hover {color: #3175e4;border-color: #3175e4;}
