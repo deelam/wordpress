@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"><title>Alegion Web Client</title><style>
+    </style></head><body>
+    <h1 class="text-center">Alegion Web Client</h1>
+    <div class="container">
+        <div class="row border border-secondary shadow p-3 mb-5 bg-white rounded">
+            <div id="div_login" class="col-sm-auto">
+                <div>
+                    <h3>Authenticate</h3>
+                    <input type="text" class="textbox" id="txt_uname" name="txt_uname" placeholder="Username" size="30"></div>
+                <div>
+                    <input type="password" class="textbox" id="txt_pwd" name="txt_pwd" placeholder="Password" size="30"></div>
+                <div>
+                    <input type="button" value="Authenticate" class="btn btn-primary" name="btn_auth" id="btn_auth"></div>
+            </div>
+            <div id="div_login_out" class="col-sm-8">
+                <div id="auth_message" class="alert alert-primary" role="alert"></div>
+                <textarea class="alert alert-success" id="txt_authToken" name="txt_authToken" placeholder="access token" style="width: 100%"></textarea></div>
+        </div>
+        <div class="row border border-secondary shadow p-3 mb-5 bg-white rounded">
+            <div id="div_wksp" class="col-sm-auto">
+                <input type="button" value="Get Workspaces" class="btn btn-primary" name="btn_wksp" id="btn_wksp"><br></div>
+            <div id="div_wksp_out" class="col-sm-auto">
+                <select id="wkspOptions"><option>Select workspace</option></select><div id="wksp_message" class="alert alert-primary" role="alert"></div>
+                <input type="text" class="alert alert-success" id="txt_wkspId" name="txt_wkspId" placeholder="workspace id" size="50"><br></div>
+        </div>
+        <div class="row border border-secondary shadow p-3 mb-5 bg-white rounded">
+            <div id="div_batches" class="col-sm-auto">
+                Workspace:<br><input type="text" class="alert alert-success" id="txt_wkspName" name="txt_wkspName" placeholder="selected workspace name"><br><input type="button" value="Get Batches" class="btn btn-primary" name="btn_batches" id="btn_batches"><br></div>
+            <div id="div_batches_out" class="col-sm-8">
+                <select id="batchOptions"><option>Select batch</option></select><div id="batches_message" class="alert alert-primary" role="alert"></div>
+                <input type="text" class="alert alert-success" id="txt_batchId" name="txt_batchId" placeholder="batch id" size="50"><br></div>
+        </div>
+        <div class="row border border-secondary shadow p-3 mb-5 bg-white rounded">
+            <div id="div_records" class="col-sm-auto">
+                Batch:<br><input type="text" class="alert alert-success" id="txt_batchName" name="txt_batchName" placeholder="selected batch name"><br><input type="button" value="Get Records" class="btn btn-primary" name="btn_records" id="btn_records"><br></div>
+            <div id="div_records_out" class="col-sm-8">
+                <div id="records_message" class="alert alert-primary" role="alert"></div>
+                <div class="container" style="overflow: auto; height: 400px">
+                    <ul id="records_list" class="list-group"></ul></div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js"></script><script src="alegion_webclient.js">
+    </script></body></html>
