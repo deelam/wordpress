@@ -12,7 +12,7 @@
 	<atom:link href="https://deelam.github.io/wordpress/category/api/feed/" rel="self" type="application/rss+xml" />
 	<link>http://deelam.github.io/wordpress/</link>
 	<description>Alegion Platform</description>
-	<lastBuildDate>Wed, 31 Jul 2019 23:02:29 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 05 Aug 2019 14:46:11 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
@@ -819,7 +819,7 @@ X-Total-Count: 42</code></pre>
 		<guid isPermaLink="false">http://deelam.github.io/wordpress/:8000/?page_id=15</guid>
 				<description><![CDATA[Authenticate by sending a POST request to the /app.alegion.com/api/v1/login endpoint. Retrieve the access_token from the response body, and use it in the Authorization field in the header for all subsequent requests. Example request Example response The expires_in field specifies (in seconds) when the access_token will no longer be valid. You<a class="moretag" href="https://deelam.github.io/wordpress/api/authentication/"> Read more&#8230;</a>]]></description>
 								<content:encoded><![CDATA[
-<p>Authenticate by sending a POST request to the <code>/app.alegion.com/api/v1/login</code> endpoint. Retrieve the <code>access_token</code> from the response body, and use it in the <code>Authorization</code> field in the header for all subsequent requests.</p>
+<p>Authenticate by sending a POST request to the <code><a href="http://demo-api.alegion.com/#authentication">/app.alegion.com/api/v1/login</a></code> endpoint. Retrieve the <code>access_token</code> from the response body, and use it in the <code>Authorization</code> field in the header for all subsequent requests.</p>
 
 
 
@@ -832,8 +832,8 @@ X-Total-Count: 42</code></pre>
   -H 'Content-Type: application/json' \
   -H 'cache-control: no-cache' \
   -d '{
-	"username": "username",
-	"password": "password"
+	"username": "MY_USERNAME@COMPANY.COM",
+	"password": "MY_LOGIN_PASSWORD"
    }'</code></pre>
 
 
