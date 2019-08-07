@@ -1,48 +1,62 @@
 // var auth_resp;
 var alegion_baseurl = "https://app.alegion.com/api/v1";
-var workspaces, batches;
+var workflows, batches;
 
 $(document).ready(function() {
     $("#btn_auth").click(function() {
         var username = $("#txt_uname")
             .val()
             .trim();
+
         var password = $("#txt_pwd")
             .val()
             .trim();
 
-        if (username != "" && password != "") {
+        if (username.length == 0) {
+            $("#auth_message").html("Enter your username");
+        } else if (password.length == 0) {
+            $("#auth_message").html("Enter your password");
+        } else {
             authenticate(username, password, "#auth_message");
         }
     });
-    $("#btn_wksp").click(function() {
-        // $("#wksp_message").html("Choose");
-        getWorkspaces();
+
+    $("#btn_wkflow").click(function() {
+        getWorkflows();
     });
-    $("#wkspOptions").change(function() {
-        var selected = document.getElementById("wkspOptions").value;
-        $("#wksp_message").html(
-            "Selected: <pre>" + JSON.stringify(workspaces[selected], null, 2) + "</pre>"
+    $("#wkflowOptions").hide();
+    $("#wkflowOptions").change(function() {
+        var selected = document.getElementById("wkflowOptions").value;
+        $("#wkflow_message").html(
+            "Selected: <pre>" +
+                JSON.stringify(workflows[selected], null, 2) +
+                "</pre>"
         );
-        $("#txt_wkspId").val(workspaces[selected].id);
-        $("#txt_wkspName").val(workspaces[selected].name);
+        $("#txt_wkflowId").val(workflows[selected].id);
+        $("#txt_wkflowName").val(workflows[selected].name);
     });
+
     $("#btn_batches").click(function() {
-        // $("#batches_message").html(auth_resp.access_token.substring(0, 50));
         getBatches();
     });
+    $("#batchOptions").hide();
     $("#batchOptions").change(function() {
         var selected = document.getElementById("batchOptions").value;
         $("#batches_message").html(
-            "Selected: <pre>" + JSON.stringify(batches[selected], null, 2) + "</pre>"
+            "Selected: <pre>" +
+                JSON.stringify(batches[selected], null, 2) +
+                "</pre>"
         );
         $("#txt_batchId").val(batches[selected].id);
         $("#txt_batchName").val(batches[selected].name);
+        $("#txt_batchName2").val(batches[selected].name);
     });
 
     $("#btn_records").click(function() {
-        // $("#batches_message").html(auth_resp.access_token.substring(0, 50));
         getRecords();
+    });
+    $("#btn_results").click(function() {
+        getResults();
     });
 });
 
@@ -63,51 +77,42 @@ function authenticate(username, password, messageComp) {
         success: function(response) {
             $(messageComp).html("Success");
             console.debug("response", response);
-            var msg = "";
-
-            if (response == 1) {
-                //window.location="home.php";
-            } else {
-                msg = "Invalid username and password!";
-            }
-
-            // auth_resp = response;
-            //$("#auth_message").html(auth_resp.access_token);
             $("#txt_authToken").val(response.access_token);
         },
         error: function(xhr, textStatus, errorThrown) {
             $(messageComp).html(
-                textStatus + "<br/>" + JSON.stringify(errorThrown)
+                xhr.status +
+                    " " +
+                    textStatus +
+                    "<br/>" +
+                    JSON.stringify(xhr.responseJSON)
             );
-            console.error("Error", errorThrown);
-            $("#auth_message").html(errorThrown);
+            console.error("Authentication error", xhr, errorThrown);
         }
     });
 }
 
-function submitGet(urlpath, successFunc, messageComp) {
-    var access_token = $("#txt_authToken").val();
-    if (access_token.length > 0)
+function submitGet(urlpath, messageComp, successFunc) {
+    var access_token = $("#txt_authToken")
+        .val()
+        .trim();
+    if (access_token.length == 0) {
+        $(messageComp).html("Authentication required!");
+    } else {
+        $(messageComp).html("Submitting request to ..." + urlpath);
         $.ajax({
             type: "GET",
-            // xhrFields: {
-            //     withCredentials: true
-            // },
+            url: alegion_baseurl + urlpath,
             cache: false,
             dataType: "json",
             headers: {
                 Authorization: "Bearer " + access_token
             },
-            // beforeSend: function(xhr) {
-            //     xhr.setRequestHeader("Authorization", "Bearer " + access_token);
-            // },
-
-            url: alegion_baseurl + urlpath,
             success: function(response, textStatus) {
-                var msgSuffix="";
-                if(Array.isArray(response))
-                    msgSuffix=", response count="+response.length;
-                $(messageComp).html("Success"+msgSuffix);
+                var msgSuffix = "";
+                if (Array.isArray(response))
+                    msgSuffix = ", response count=" + response.length;
+                $(messageComp).html("Success" + msgSuffix);
                 console.debug(
                     "Success " + urlpath + ": " + textStatus,
                     response
@@ -115,77 +120,91 @@ function submitGet(urlpath, successFunc, messageComp) {
                 successFunc(response);
             },
             error: function(xhr, textStatus, errorThrown) {
+                $(messageComp).html(
+                    xhr.status +
+                        " Error! " +
+                        textStatus +
+                        "<br/>" +
+                        JSON.stringify(xhr.responseJSON)
+                );
                 console.error(
                     "Error " + urlpath + ": " + textStatus,
-                    xhr.status,
+                    xhr,
                     errorThrown
                 );
             }
-        })
-        .fail(function(xhr, textStatus, errorThrown) {
-            $(messageComp).html(
-                textStatus + "<br/>" + JSON.stringify(errorThrown)
-            );
-            console.error(
-                "Fail " + urlpath + ": " + textStatus,
-                xhr.statusText,
-                errorThrown
-            );
-        })
-        .done(function(data) {
-            console.debug("done " + urlpath);
         });
+    }
 }
 
-function getWorkspaces() {
-    submitGet(
-        "/workflows",
-        function(resp) {
-            workspaces = _.keyBy(resp, function(o) {
-                return o.id;
-            });
-            console.debug("workspaces", workspaces);
-            $("#wkspOptions").empty();
-            $.each(resp, function(i, p) {
-                $("#wkspOptions").append(
-                    $("<option></option>")
+function getWorkflows() {
+    submitGet("/workflows", "#wkflow_message", function(resp) {
+        workflows = _.keyBy(resp, function(o) {
+            return o.id;
+        });
+        console.debug("workflows", workflows);
+        $("#wkflowOptions").empty();
+        $("#wkflowOptions").append(
+            "<option value='' disabled selected>Select workflow</option>"
+        );
+        $.each(resp, function(i, p) {
+            $("#wkflowOptions").append(
+                $("<option></option>")
                     .val(p.id)
                     .html(p.name)
-                );
-            });
-        },
-        "#wksp_message"
-    );
+            );
+        });
+        $("#wkflowOptions").show();
+    });
 }
 
 function getBatches() {
-    var wkspId = $("#txt_wkspId").val();
-    if (wkspId.length > 0)
+    var wkflowId = $("#txt_wkflowId")
+        .val()
+        .trim();
+    if (wkflowId.length == 0) {
+        $("#batches_message").html("Select a workflow first");
+    } else {
         submitGet(
-            "/workflows/" + wkspId + "/batches",
+            "/workflows/" + wkflowId + "/batches",
+            "#batches_message",
             function(resp) {
                 batches = _.keyBy(resp, function(o) {
                     return o.id;
                 });
                 console.debug("batches", batches);
                 $("#batchOptions").empty();
+                $("#batchOptions").append(
+                    "<option value='' disabled selected>Select batch</option>"
+                );
                 $.each(resp, function(i, p) {
                     $("#batchOptions").append(
                         $("<option></option>")
-                        .val(p.id)
-                        .html(p.name + " (isActive=" + p.isActive + ")")
+                            .val(p.id)
+                            .html(p.name + " (isActive=" + p.isActive + ")")
                     );
                 });
-            },
-            "#batches_message"
+                $("#batchOptions").show();
+            }
         );
+    }
 }
+
+var recordStatus2Color = {
+    "in-progress": "warning",
+    complete: "success",
+    canceled: "dark",
+    error: "danger"
+};
 
 function getRecords() {
     var batchId = $("#txt_batchId").val();
-    if (batchId.length > 0)
+    if (batchId.length == 0) {
+        $("#records_message").html("Select a batch first");
+    } else {
         submitGet(
             "/batches/" + batchId + "/records",
+            "#records_message",
             function(resp) {
                 // records = _.keyBy(resp, function(o) {
                 //     return o.id;
@@ -196,17 +215,57 @@ function getRecords() {
                     $("#records_list").append(
                         $("<li class='list-group-item'></li>").html(
                             "<div class='d-flex justify-content-between align-items-center'>" +
-                            p.id +
-                            "<span class='badge badge-success badge-pill'>" +
-                            p.status +
-                            "</span></div>" +
-                            "<pre>data:" +
-                            JSON.stringify(p.data, null, 2) +
-                            "</pre>"
+                                p.id +
+                                "<span class='badge badge-info badge-pill'>" +
+                                p.createdAt +
+                                "</span><span class='badge badge-" +
+                                recordStatus2Color[p.status] +
+                                " badge-pill'>" +
+                                p.status +
+                                "</span></div>" +
+                                "<pre>data:" +
+                                JSON.stringify(p.data, null, 2) +
+                                "</pre>"
                         )
                     );
                 });
-            },
-            "#records_message"
+            }
         );
+    }
+}
+
+function getResults() {
+    var batchId = $("#txt_batchId").val();
+    if (batchId.length == 0) {
+        $("#results_message").html("Select a batch first");
+    } else {
+        submitGet(
+            "/batches/" + batchId + "/results",
+            "#results_message",
+            function(resp) {
+                // results = _.keyBy(resp, function(o) {
+                //     return o.id;
+                // });
+                console.debug("results", resp);
+                $("#results_list").empty();
+                $.each(resp, function(i, p) {
+                    $("#results_list").append(
+                        $("<li class='list-group-item'></li>").html(
+                            "<div class='d-flex justify-content-between align-items-center'>" +
+                                p.id +
+                                "<span class='badge badge-info badge-pill'>" +
+                                p.createdAt +
+                                "</span></div>" +
+                                "<pre>inputRecord:" +
+                                JSON.stringify(p.inputRecord, null, 2) +
+                                "</pre>" +
+                                "<pre>resultData:" +
+                                JSON.stringify(p.resultData, null, 2) +
+                                "</pre>"
+                        )
+                    );
+                });
+            }
+        );
+    }
 }
