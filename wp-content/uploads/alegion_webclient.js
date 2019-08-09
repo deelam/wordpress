@@ -1,8 +1,20 @@
-// var auth_resp;
+// Version: 2019.08.09
+
+var show_instructs = true;
 var alegion_baseurl = "https://app.alegion.com/api/v1";
 var workflows, batches;
 
 $(document).ready(function() {
+    $("#btn_instructs").click(function() {
+        if(show_instructs){
+            show_instructs=false
+            $(".instructs").hide()
+        }else{
+            show_instructs=true
+            $(".instructs").show()
+        }
+    });
+
     $("#btn_auth").click(function() {
         var username = $("#txt_uname")
             .val()
@@ -191,6 +203,7 @@ function getBatches() {
 }
 
 var recordStatus2Color = {
+    "queued": "secondary",
     "in-progress": "warning",
     complete: "success",
     canceled: "dark",
