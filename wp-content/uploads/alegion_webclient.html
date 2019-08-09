@@ -4,44 +4,122 @@
     <h1 class="text-center">Alegion Web Client</h1>
     <div class="container">
         <div class="row border border-secondary shadow p-3 mb-5 bg-white rounded">
-            <div id="div_login" class="col-sm-auto">
-                <form>
-                    <input type="text" class="form-control" id="txt_uname" name="txt_uname" placeholder="Username" size="30"><br><input type="password" class="form-control" id="txt_pwd" name="txt_pwd" placeholder="Password" size="30"><br><input type="button" value="Authenticate" class="btn btn-primary" name="btn_auth" id="btn_auth"></form>
+            <div class="col">
+                This page provides an example of querying the Alegion Platform
+                from a web page using JavaScript.
+                <br>You can use this page as is, or you can download it (along with the
+                <a href="alegion_webclient.js">alegion_webclient.js</a>
+                 file) to run from your computer.
+                <br>If you're familiar with the procedure, you can hide the
+                instructions using this button: <input type="button" value="Toggle instructions" class="btn btn-info" name="btn_instructs" id="btn_instructs"></div>
+        </div>
+        <div class="row border border-secondary shadow p-3 mb-5 bg-white rounded">
+            <div class="col">
+                <div class="row instructs alert">
+                    The first step is to log in with your Alegion username and password.
+                </div>
+                <div class="row">
+                    <div id="div_login" class="col-sm-auto">
+                        <form>
+                            <input type="text" class="form-control" id="txt_uname" name="txt_uname" placeholder="Username" size="30"><br><input type="password" class="form-control" id="txt_pwd" name="txt_pwd" placeholder="Password" size="30"><br><input type="button" value="Authenticate" class="btn btn-primary" name="btn_auth" id="btn_auth"></form>
+                    </div>
+                    <div id="div_login_out" class="col-sm-8">
+                        <div id="auth_message" class="alert alert-primary" role="alert"></div>
+                        <textarea class="alert alert-success" id="txt_authToken" name="txt_authToken" placeholder="access token" style="width: 100%"></textarea></div>
+                </div>
+                <div class="row instructs alert">
+                    Upon successfully authenticating, you will receive an access token
+                    (shown in the green box above). This token will be used for subsequent actions below.
+                    This exact access token can be copied and used by another tool.
+                    Be aware that it expires in a short amount of time.
+                    If the token expires, simply reauthenticate and use the new token.
+                </div>
             </div>
-            <div id="div_login_out" class="col-sm-8">
-                <div id="auth_message" class="alert alert-primary" role="alert"></div>
-                <textarea class="alert alert-success" id="txt_authToken" name="txt_authToken" placeholder="access token" style="width: 100%"></textarea></div>
         </div>
         <div class="row border border-secondary shadow p-3 mb-5 bg-white rounded">
-            <div id="div_wkflow" class="col-sm-auto">
-                <input type="button" value="Get Workflows" class="btn btn-primary" name="btn_wkflow" id="btn_wkflow"><br></div>
-            <div id="div_wkflow_out" class="col-sm-auto">
-                <select id="wkflowOptions" class="custom-select"><option>Select workflow</option></select><div id="wkflow_message" class="alert alert-primary" role="alert"></div>
-                <input type="text" class="alert alert-success" id="txt_wkflowId" name="txt_wkflowId" placeholder="workflow id" size="50"><br></div>
-        </div>
-        <div class="row border border-secondary shadow p-3 mb-5 bg-white rounded">
-            <div id="div_batches" class="col-sm-auto">
-                Workflow:<br><input type="text" class="alert alert-secondary" id="txt_wkflowName" name="txt_wkflowName" placeholder="select a workflow" readonly><br><input type="button" value="Get Batches" class="btn btn-primary" name="btn_batches" id="btn_batches"><br></div>
-            <div id="div_batches_out" class="col-sm-8">
-                <select id="batchOptions" class="custom-select"><option>Select batch</option></select><div id="batches_message" class="alert alert-primary" role="alert"></div>
-                <input type="text" class="alert alert-success" id="txt_batchId" name="txt_batchId" placeholder="batch id" size="50"><br></div>
-        </div>
-        <div class="row border border-secondary shadow p-3 mb-5 bg-white rounded">
-            <div id="div_records" class="col-sm-auto">
-                Batch:<br><input type="text" class="alert alert-secondary" id="txt_batchName" name="txt_batchName" placeholder="select a batch" readonly><br><input type="button" value="Get Records" class="btn btn-primary" name="btn_records" id="btn_records"><br></div>
-            <div id="div_records_out" class="col-sm-8">
-                <div id="records_message" class="alert alert-primary" role="alert"></div>
-                <div class="container" style="overflow: auto; height: 400px">
-                    <ul id="records_list" class="list-group"></ul></div>
+            <div class="col">
+                <div class="row instructs alert">
+                    Next, click the "Get Workflows" button to retrieve all workflows
+                    in your account.
+                    This will populate a drop-down menu with workflow names.
+                    Selecting a workflow will show its details in the blue box.
+                </div>
+                <div class="row">
+                    <div id="div_wkflow" class="col-sm-auto">
+                        <input type="button" value="Get Workflows" class="btn btn-primary" name="btn_wkflow" id="btn_wkflow"><br></div>
+                    <div id="div_wkflow_out" class="col-sm-auto">
+                        <select id="wkflowOptions" class="custom-select"><option>Select a workflow</option></select><div id="wkflow_message" class="alert alert-primary" role="alert"></div>
+                        <input type="text" class="alert alert-success" id="txt_wkflowId" name="txt_wkflowId" placeholder="workflow id" size="50"><br></div>
+                </div>
+                <div class="row instructs alert">
+                    In the green box is the workflow ID of your selected
+                    workflow; it will be used for the next action.
+                </div>
             </div>
         </div>
         <div class="row border border-secondary shadow p-3 mb-5 bg-white rounded">
-            <div id="div_results" class="col-sm-auto">
-                Batch:<br><input type="text" class="alert alert-secondary" id="txt_batchName2" name="txt_batchName2" placeholder="select a batch" readonly><br><input type="button" value="Get Results" class="btn btn-primary" name="btn_results" id="btn_results"><br></div>
-            <div id="div_results_out" class="col-sm-8">
-                <div id="results_message" class="alert alert-primary" role="alert"></div>
-                <div class="container" style="overflow: auto; height: 400px">
-                    <ul id="results_list" class="list-group"></ul></div>
+            <div class="col">
+                <div class="row instructs alert">
+                    The gray box below displays the workflow you selected above.
+                    A workflow can have many batches of records. Click "Get Batches"
+                    to retrieve the batches within the selected workflow.
+                    Then select a batch from the drop-down menu.
+                </div>
+                <div class="row">
+                    <div id="div_batches" class="col-sm-auto">
+                        Workflow:<br><input type="text" class="alert alert-secondary" id="txt_wkflowName" name="txt_wkflowName" placeholder="select a workflow" readonly><br><input type="button" value="Get Batches" class="btn btn-primary" name="btn_batches" id="btn_batches"><br></div>
+                    <div id="div_batches_out" class="col-sm-8">
+                        <select id="batchOptions" class="custom-select"><option>Select batch</option></select><div id="batches_message" class="alert alert-primary" role="alert"></div>
+                        <input type="text" class="alert alert-success" id="txt_batchId" name="txt_batchId" placeholder="batch id" size="50"><br></div>
+                </div>
+                <div class="row instructs alert">
+                    In the green box is the batch ID of your selected
+                    batch; it will be used for the next action.
+                </div>
+            </div>
+        </div>
+        <div class="row border border-secondary shadow p-3 mb-5 bg-white rounded">
+            <div class="col">
+                <div class="row instructs alert">
+                    The gray box below displays the batch you selected above.
+                    Click "Get Records" to list the records in the selected batch.
+                </div>
+                <div class="row">
+                    <div id="div_records" class="col-sm-auto">
+                        Batch:<br><input type="text" class="alert alert-secondary" id="txt_batchName" name="txt_batchName" placeholder="select a batch" readonly><br><input type="button" value="Get Records" class="btn btn-primary" name="btn_records" id="btn_records"><br></div>
+                    <div id="div_records_out" class="col-sm-8">
+                        <div id="records_message" class="alert alert-primary" role="alert"></div>
+                        <div class="container" style="overflow: auto; max-height: 400px">
+                            <ul id="records_list" class="list-group"></ul></div>
+                    </div>
+                </div>
+                <div class="row instructs alert">
+                    Note the status of each record in the upper-right-hand corner.
+                    Records that have completed processing will have an associated
+                    result record, which can be retrieved in the next action.
+                </div>
+            </div>
+        </div>
+        <div class="row border border-secondary shadow p-3 mb-5 bg-white rounded">
+            <div class="col">
+                <div class="row instructs alert">
+                    The gray box below displays your currently selected batch.
+                    Click "Get Results" to list the results of successfully-completed
+                    records in the selected batch.
+                </div>
+                <div class="row">
+                    <div id="div_results" class="col-sm-auto">
+                        Batch:<br><input type="text" class="alert alert-secondary" id="txt_batchName2" name="txt_batchName2" placeholder="select a batch" readonly><br><input type="button" value="Get Results" class="btn btn-primary" name="btn_results" id="btn_results"><br></div>
+                    <div id="div_results_out" class="col-sm-8">
+                        <div id="results_message" class="alert alert-primary" role="alert"></div>
+                        <div class="container" style="overflow: auto; max-height: 400px">
+                            <ul id="results_list" class="list-group"></ul></div>
+                    </div>
+                </div>
+                <div class="row instructs alert">
+                    In the upper-right-hand corner of each result is the creation
+                    time of the result record.
+                </div>
             </div>
         </div>
     </div>
