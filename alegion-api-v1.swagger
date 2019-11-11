@@ -1,0 +1,1013 @@
+swagger: '2.0'
+info:
+  title: Alegion API
+  version: '1.0'
+  description: "Describes available REST endpoints used to interface with the Alegion Platform."
+host: "app.alegion.com"
+basePath: "/"
+schemes:
+  - https
+security:
+  - OauthSecurity: []
+paths:
+  /api/v1/login:
+    post:
+      tags:
+        - Authentication
+      description: Authenticate against the Alegion API. Required for any other request. Retrieve the `access_token` from the response body, and use it in the `Authorization` field in the header for all subsequent requests.
+      operationId: login
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Authentication request
+          required: true
+          schema:
+            $ref: '#/definitions/ApiAuthenticationRequest'
+      responses:
+        '200':
+          description: Retrieve the `access_token` from the response body, and use it in the `Authorization` field in the header for all subsequent requests. 
+          schema:
+            $ref: '#/definitions/ApiAuthenticationResponse'
+          headers:
+            Cache-Control:
+              type: string
+              description: Will be set to no-store
+            Pragma:
+              type: string
+              description: Will be set to no-cache
+        '401':
+          description: Access tokens have a defined lifespan, and requests made using an expired token will fail with an HTTP 401 error. Simply make the authentication request again and use the new access token in all subsequent requests.
+        '500':
+          description: Internal server error
+
+  /api/v1/workflows:
+    get:
+      tags:
+        - Workflows
+      description: To get a list of available workflows, issue a GET request. Retrieve the ID of the desired workflow from the response body to use as the `workflowId` when creating or modifying a batch.
+      operationId: listWorkflows
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          required: true
+          default: "Bearer {access_token}"
+        - name: page
+          in: query
+          description: the page number to return
+          required: false
+          type: integer
+          default: 1
+          minimum: 1
+        - name: pageSize
+          in: query
+          description: max number of records per page
+          required: false
+          type: integer
+          default: 20
+          maximum: 10000
+          minimum: 1
+        - name: query
+          in: query
+          description: Full text search query; for partial or exact match on the InputRecord’s id and metadata fields
+          required: false
+          type: string
+        - name: tenantId
+          in: query
+          description: Contact an Alegion representative to get your customer ID. This is synonymous with tenantId (mentioned in the API documentation) and realm.
+          required: false
+          type: string
+        - name: isArchived
+          in: query
+          required: false
+          type: boolean
+        - name: sort
+          in: query
+          required: false
+          type: string
+          pattern: '[-+]createdAt'
+          default: '-createdAt'
+          description: use `-createdAt` (descending) or `+createdAt` (ascending) to sort by createdAt
+      responses:
+        '200':
+          description: List of workflows
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Workflow'
+          headers:
+            X-Total-Count:
+              type: integer
+              description: Total number of items
+            Link:
+              type: string
+              description: 'Link header; see https://developer.github.com/v3/#pagination'
+        '401':
+          description: Access token is missing, expired, or invalid
+        '403':
+          description: Valid token, permission denied
+        '404':
+          description: Workflow list page does not exist
+        '422':
+          description: Validation Errors
+          schema:
+            $ref: '#/definitions/ValidationModel'
+            
+  '/api/v1/workflows/{workflowId}/batches':
+    post:
+      tags:
+        - Batches
+      description: Once you’ve identified the Workflow, create a Batch by issuing this POST request with a NewBatch object as the request body. Retrieve the ID from the response body to use as the `batchId` to add InputRecords.
+      operationId: createBatch
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          required: true
+          default: "Bearer {access_token}"
+        - name: workflowId
+          in: path
+          description: Workflow ID
+          required: true
+          type: string
+          format: uuid
+          schema:
+            example: "dac402db-b594-4f44-a2c7-87a535cf26f9"
+        - in: body
+          name: body
+          description: NewBatch object
+          required: true
+          schema:
+            $ref: '#/definitions/NewBatch'
+      responses:
+        '201':
+          description: Created batch
+          schema:
+            $ref: '#/definitions/Batch'
+          headers:
+            Location:
+              type: string
+              description: A URI to a created batch
+        '401':
+          description: 'Access token is missing, expired, or invalid'
+        '403':
+          description: 'Valid token, permission denied'
+        '422':
+          description: Validation Errors
+          schema:
+            $ref: '#/definitions/ValidationModel'
+    get:
+      tags:
+        - Batches
+      description: To list all batches for a workflow, issue this GET request. Results will be paginated.
+      operationId: listBatches
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          required: true
+          default: "Bearer {access_token}"
+        - name: workflowId
+          in: path
+          description: Workflow ID
+          required: true
+          type: string
+          schema:
+            example: "dac402db-b594-4f44-a2c7-87a535cf26f9"
+          format: uuid
+        - name: isActive
+          in: query
+          default: true
+          description: Deprecated. Affects whether a batch is displayed under the active or archived section of the UI. This can only be set to false if isEnabled is also false.
+          required: false
+          type: boolean
+      responses:
+        '200':
+          description: List of batches
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/BatchInfo'
+        '401':
+          description: 'Access token is missing, expired, or invalid'
+        '403':
+          description: 'Valid token, permission denied'
+        '404':
+          description: Batch list page does not exist
+        '422':
+          description: Validation Errors
+          schema:
+            $ref: '#/definitions/ValidationModel'
+  '/api/v1/batches/{batchId}':
+    get:
+      tags:
+        - Batches
+      description: To get information about a specific batch, issue this GET request.
+      operationId: getBatch
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          required: true
+          default: "Bearer {access_token}"
+        - name: batchId
+          in: path
+          description: Batch ID
+          required: true
+          type: string
+          schema:
+            example: "3c9fa471-882b-4d92-82d4-ece202606ba6"
+          format: uuid
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Batch'
+        '401':
+          description: 'Access token is missing, expired, or invalid'
+        '403':
+          description: 'Valid token, permission denied'
+        '404':
+          description: Batch does not exist
+      x-locable: getBatchApiPath
+    put:
+      tags:
+        - Batches
+      description: To update information about a specific batch, issue this PUT request.
+      operationId: updateBatch
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          required: true
+          default: "Bearer {access_token}"
+        - name: batchId
+          in: path
+          description: Batch ID in need of update
+          required: true
+          type: string
+          format: uuid
+          schema:
+            example: "3c9fa471-882b-4d92-82d4-ece202606ba6"
+        - in: body
+          name: body
+          description: Batch object
+          required: true
+          schema:
+            $ref: '#/definitions/Batch'
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Batch'
+        '401':
+          description: 'Access token is missing, expired, or invalid'
+        '403':
+          description: 'Valid token, permission denied'
+        '404':
+          description: Batch does not exist
+        '422':
+          description: Validation Errors
+          schema:
+            $ref: '#/definitions/ValidationModel'
+  '/api/v1/batches/{batchId}/records/import':
+    post:
+      tags:
+        - InputRecords
+      description: Bulk import of JSON records. To load records into a batch using a JSON file, issue this POST with a JSON array of NewInputRecords as the request body. 
+      operationId: importJsonInputRecords
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          required: true
+          default: "Bearer {access_token}"
+        - name: batchId
+          in: path
+          description: Batch ID
+          required: true
+          type: string
+          format: uuid
+          schema:
+            example: "3c9fa471-882b-4d92-82d4-ece202606ba6"
+        - in: body
+          name: body
+          description: Array of input record objects
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NewInputRecord'
+      responses:
+        '201':
+          description: Created
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/InputRecord'
+        '401':
+          description: 'Access token is missing, expired, or invalid'
+        '403':
+          description: 'Valid token, permission denied'
+        '404':
+          description: Batch does not exist
+        '422':
+          description: Validation Errors
+          schema:
+            $ref: '#/definitions/ValidationModel'
+  '/api/v1/batches/{batchId}/records/import-csv':
+    post:
+      tags:
+        - InputRecords
+      description: Bulk import of CSV records. To load input records that are specified in a CSV file, issue this POST request with a UTF-8 encoded CSV file as form data. This is a synchronous operation.
+      operationId: importCsvInputRecords
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          required: true
+          default: "Bearer {access_token}"
+        - name: batchId
+          in: path
+          description: Batch ID
+          required: true
+          type: string
+          format: uuid
+          schema:
+            example: "3c9fa471-882b-4d92-82d4-ece202606ba6"
+        - name: file
+          in: formData
+          description: The uploaded file data
+          required: true
+          type: file
+      responses:
+        '201':
+          description: Created
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/InputRecord'
+        '401':
+          description: 'Access token is missing, expired, or invalid'
+        '403':
+          description: 'Valid token, permission denied'
+        '404':
+          description: Batch does not exist
+        '422':
+          description: Validation Errors
+          schema:
+            $ref: '#/definitions/ValidationModel'
+            
+  '/api/v1/batches/{batchId}/records':
+    get:
+      tags:
+        - InputRecords
+      description: List input records. To retrieve InputRecords within a batch, issue this GET request. Results will be paginated.
+      operationId: getInputRecords
+      produces:
+        - application/json
+        - text/csv
+        - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          required: true
+          default: "Bearer {access_token}"
+        - name: batchId
+          in: path
+          description: Batch ID
+          required: true
+          type: string
+          format: uuid
+          schema:
+            example: "3c9fa471-882b-4d92-82d4-ece202606ba6"
+        - name: page
+          in: query
+          description: Requested page number
+          required: false
+          type: integer
+          default: 1
+          minimum: 1
+        - name: pageSize
+          in: query
+          description: Desired page size
+          required: false
+          type: integer
+          default: 20
+          maximum: 10000
+          minimum: 1
+        - name: query
+          in: query
+          description: Full text search query; for partial or exact match on the InputRecord’s id and metadata fields
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: Input record status desired
+          required: false
+          type: string
+          enum:
+            - queued
+            - in-progress
+            - escalated
+            - exception
+            - canceled
+            - complete
+        - name: workflowStageId
+          in: query
+          description: InputRecords are processed through stages in the workflow. Each stage has a workflowStageId. If this parameter is specified, then only InputRecords that are currently in or passed the specified stage will be retrieved.
+          required: false
+          type: string
+          format: uuid
+        - name: sort
+          in: query
+          required: false
+          type: string
+          pattern: '[-+]createdAt'
+          default: '-createdAt'
+          description: use `-createdAt` (descending) or `+createdAt` (ascending) to sort by createdAt
+        - name: ids
+          in: query
+          description: List of input record ids
+          required: false
+          type: array
+          items:
+            type: string
+            format: uuid
+          collectionFormat: csv
+          uniqueItems: true
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/InputRecord'
+          headers:
+            X-Total-Count:
+              type: integer
+            Link:
+              type: string
+              description: 'Link header per: https://developer.github.com/v3/#pagination'
+        '401':
+          description: 'Access token is missing, expired, or invalid'
+        '403':
+          description: 'Valid token, permission denied'
+        '404':
+          description: Batch does not exist
+        '422':
+          description: Validation Errors
+          schema:
+            $ref: '#/definitions/ValidationModel'
+      x-locable: getInputRecordApiPath
+
+  '/api/v1/batches/{batchId}/results':
+    get:
+      tags:
+        - RecordResults
+      description: List of record results. Retrieve ResultRecords by issuing this GET request. Results will be paginated.
+      operationId: getRecordResults
+      produces:
+        - application/json
+        - text/csv
+        - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          required: true
+          default: "Bearer {access_token}"
+        - name: batchId
+          in: path
+          description: Batch ID
+          required: true
+          type: string
+          format: uuid
+          schema:
+            example: "3c9fa471-882b-4d92-82d4-ece202606ba6"
+        - name: withResultData
+          in: query
+          description: Whether or not to pull in resultData
+          required: false
+          type: boolean
+        - name: page
+          in: query
+          description: Requested page number
+          required: false
+          type: integer
+          default: 1
+          minimum: 1
+        - name: pageSize
+          in: query
+          description: Desired page size
+          required: false
+          type: integer
+          default: 20
+          maximum: 10000
+          minimum: 1
+        - name: query
+          in: query
+          description: Full text search query; for partial or exact match on the InputRecord’s id and metadata fields
+          required: false
+          type: string
+        - name: minCreatedAt
+          in: query
+          description: Minimum creation date filter
+          required: false
+          type: string
+          format: dateTime
+          schema:
+            example: "2018-01-01T00:00:00.000Z"
+        - name: maxCreatedAt
+          in: query
+          description: Maximum creation date filter
+          required: false
+          type: string
+          format: dateTime
+          schema:
+            example: "2018-01-01T23:59:59.000Z"
+        - name: sort
+          in: query
+          required: false
+          type: string
+          pattern: '[-+]createdAt'
+          default: '-createdAt'
+          description: use `-createdAt` (descending) or `+createdAt` (ascending) to sort by createdAt
+        - name: ids
+          in: query
+          description: List of record result uuids
+          required: false
+          type: array
+          items:
+            type: string
+            format: uuid
+          collectionFormat: csv
+          uniqueItems: true
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/RecordResult'
+          headers:
+            X-Total-Count:
+              type: integer
+            Link:
+              type: string
+              description: 'Link header per: https://developer.github.com/v3/#pagination'
+        '401':
+          description: 'Access token is missing, expired, or invalid'
+        '403':
+          description: 'Valid token, permission denied'
+        '404':
+          description: Batch does not exist
+        '422':
+          description: Validation Errors
+          schema:
+            $ref: '#/definitions/ValidationModel'
+
+definitions:
+  ApiAuthenticationRequest:
+    required:
+      - password
+      - username
+    properties:
+      username:
+        type: string
+        #format: string
+        description: username provided by Customer Support
+      password:
+        type: string
+        #format: string
+        description: password provided by Customer Support
+    example:
+      username: "MY_USERNAME@COMPANY.COM"
+      password: "MY_LOGIN_PASSWORD"
+  ApiAuthenticationResponse:
+    properties:
+      access_token:
+        type: string
+        format: string
+        description: Access token needed for subsequent requests
+      expires_in:
+        type: integer
+        description: Access token expiration in seconds
+      token_type:
+        type: string
+        description: The token type of the authentication result
+      refresh_token:
+        type: string
+        description: Refresh token
+      id_token:
+        type: string
+        description: ID token
+    example:
+      access_token: "eyJraWQiOi.......zNocEtlN1Nkelwv"
+      token_type: "bearer"
+      expires_in: 3600
+  ErrorModel:
+    properties:
+      message:
+        type: string
+        description: Error message
+  ValidationModel:
+    properties:
+      message:
+        type: string
+        description: Error message
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/ValidationModel_errors'
+    example:
+      message: "Something went wrong"
+      errors: [ { message: "Illegal name", field: "name" } ]
+  ValidationModel_errors:
+    properties:
+      message:
+        type: string
+        description: Error message
+      field:
+        type: string
+        description: Name of the request field in error
+  Workflow:
+    required:
+      #- createdAt
+      #- id
+      #- isActive
+      #- isVisible
+      - name
+    properties:
+      id:
+        type: string
+        format: uuid
+        description: Workflow ID
+        readOnly: true
+      name:
+        type: string
+        format: trimmed
+        description: Workflow name
+      description:
+        type: string
+        format: trimmed
+        description: Workflow description
+      isActive:
+        type: boolean
+        description: True if Workflow is active
+        readOnly: true
+      isVisible:
+        type: boolean
+        description: True if Workflow is visible
+        readOnly: true
+      isArchived:
+        type: boolean
+        description: True if Workflow is archived
+        readOnly: true
+      defaultOutput:
+        type: object
+        description: Default values for workflow output
+        properties: {}
+      createdAt:
+        type: string
+        format: dateTime
+        description: UTC timestamp (set to now on creation)
+        readOnly: true
+      isLimitWorkerToOncePerInputRecord:
+        type: boolean
+        description: Determines if a specialist worker is excluded from future stages once he works a task
+        default: false
+    example:
+      id: "dac402db-b594-4f44-a2c7-87a535cf26f9"
+      name: "Workflow name"
+      description: "Workflow description"
+      isArchived: false
+      isVisible: true
+      isActive: true
+      createdAt: "2018-09-26T18:35:38.188Z"
+      isLimitWorkerToOncePerInputRecord: false
+      #defaultOutput: '{}'
+    x-identifiable: true
+  NewBatch:
+    required:
+      - name
+    properties:
+      name:
+        type: string
+        format: trimmed
+        description: Batch name
+      priority:
+        $ref: '#/definitions/Priority'
+      isActive:
+        type: boolean
+        default: true
+        description: Deprecated
+      isEnabled:
+        type: boolean
+        default: false
+        description: 'An optional parameter that enables the launching of queued tasks when set to true'
+      lowWaterMark:
+        type: integer
+        description: Deprecated
+      highWaterMark:
+        type: integer
+        description: Deprecated
+    example:
+      name: "My First Batch"
+      isEnabled: true
+  Batch:
+    required:
+      - id
+      - name
+      - workflowId
+      - createdAt
+      - isEnabled
+      - priority
+      - isActive
+    properties:
+      id:
+        type: string
+        format: uuid
+        description: Batch ID
+      name:
+        type: string
+        format: trimmed
+        description: name that is used to identify the batch
+      workflowId:
+        type: string
+        format: uuid
+        description: Workflow ID
+      priority:
+        $ref: '#/definitions/Priority'
+      isActive:
+        type: boolean
+        description: 'Deprecated. Affects whether a batch is displayed under the active or archived section of the UI. This can only be set to false if isEnabled is also false.'
+      isEnabled:
+        type: boolean
+        description: 'determines if the batch’s records will be queued up for processing'
+      createdAt:
+        type: string
+        format: dateTime
+        description: UTC timestamp (set to now on creation); a date in the format YYYY-MM-DD.
+      lowWaterMark:
+        type: integer
+        description: 'Deprecated'
+      highWaterMark:
+        type: integer
+        description: 'Deprecated'
+    example:
+      id: "739b1978-cb5b-4188-9d1d-37a394d67f5a"
+      name: "My First Batch"
+      workflowId: "dac402db-b594-4f44-a2c7-87a535cf26f9"
+      isEnabled: true
+      createdAt: "2019-03-25T19:45:47.275Z"
+      priority: "normal"
+      isActive: true
+      lowWaterMark: 200
+      highWaterMark: 500
+    x-identifiable: true
+  BatchInfo:
+    properties:
+      id:
+        type: string
+        format: uuid
+        description: Batch ID
+        readOnly: true
+      name:
+        type: string
+        format: trimmed
+        description: Batch name
+      workflowId:
+        type: string
+        format: uuid
+        description: Workflow ID
+        readOnly: true
+      isEnabled:
+        type: boolean
+        description: 'True if Batch is enabled (default: false)'
+      createdAt:
+        type: string
+        format: dateTime
+        description: UTC timestamp (set to now on creation)
+        readOnly: true
+      priority:
+        $ref: '#/definitions/Priority'
+      isActive:
+        type: boolean
+        description: Deprecated
+      lowWaterMark:
+        description: Deprecated
+        type: integer
+      highWaterMark:
+        description: Deprecated
+        type: integer
+      complete:
+        type: integer
+      inProgress:
+        type: integer
+      queued:
+        type: integer
+      adminReview:
+        type: integer
+      escalate:
+        type: integer
+      adjudicate:
+        type: integer
+      review:
+        type: integer
+      content:
+        type: integer
+      exceptions:
+        type: integer
+      canceled:
+        type: integer
+      enabled:
+        type: boolean
+    example:
+      id: "8760a700-6846-4476-8c36-2f944f17fd72"
+      name: "Batch 1"
+      workflowId: "dac402db-b594-4f44-a2c7-87a535cf26f9"
+      isEnabled: true
+      createdAt: "2018-09-26T18:41:31.410Z"
+      isActive: true
+      priority: "normal"
+      lowWaterMark: 200
+      highWaterMark: 500
+  Priority:
+    type: string
+    description: Deprecated
+    enum:
+      - normal
+      - high
+  RecordResult:
+    required:
+      #- createdAt
+      - resultData
+    properties:
+      id:
+        type: string
+        format: uuid
+        description: Record result ID
+      inputRecord:
+        #description: Input records
+        $ref: '#/definitions/InputRecord'
+      resultData:
+        type: object
+        description: An arbitrary JSON object
+        properties: {}
+      createdAt:
+        type: string
+        format: dateTime
+        description: UTC timestamp
+        readOnly: true
+    description: Result of record processing
+    example:
+      createdAt: "2017-11-14T21:02:36.491Z"
+      id: "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+      resultData: '{}'
+      inputRecord: {
+        createdAt: "2017-11-14T20:59:28.375Z",
+        metadata: "imageset-002",
+        data: {
+          "image_url": "http://fileserver.net/photo12.png",
+          "image_timestamp": 1563493639,
+          "image_guid": "CQ4JAQgOCQQDAQgHBAwDDQ"
+        },
+        workflowStageId: "046b6c7f-0b8a-43b9-b35d-6489e6daee91",
+        id: "046b6c7f-0b8a-43b9-b35d-6489e6daee91",
+        status: "in-progress"
+      }
+    x-identifiable: true
+  NewInputRecord:
+    required:
+      - data
+    properties:
+      data:
+        type: object
+        description: The value of the data field is a JSON object with key-value pairs. The names of the keys correspond to field names used in customer-specific Task Templates. The set of key names for your specific workflow will be provided by a Customer Success representative. It is critical that the key names match the field names! Any key name that does not match a field name will be ignored and copied to the ResultRecord.
+        properties: {}
+      metadata:
+        type: string
+        description: The metadata field (which is optional when sent in a request body or as a CSV column) will be associated with that InputRecord throughout the Workflow. Internally, the metadata field is stored as an uninterpreted string in its own column in our database, which makes querying faster. A group of InputRecords can have the same metadata value, or each InputRecord can have its own unique metadata value. Using this metadata field is a great way to attach an identifier to a single InputRecords or sets of InputRecords, which might otherwise be difficult to identify in reporting or search scenarios. Note that metadata is a reserved word and must be a sibling to the InputRecord’s data field, not a child of the data field.
+    example:
+      data: {
+        "image_url": "http://fileserver.net/photo12.png",
+        "image_timestamp": 1563493639,
+        "image_guid": "CQ4JAQgOCQQDAQgHBAwDDQ"
+      }
+      metadata: "imageset-002"
+
+  InputRecord:
+    required:
+      #- createdAt
+      - data
+      #- id
+      - status
+    properties:
+      id:
+        type: string
+        format: uuid
+        description: Input record ID
+        readOnly: true
+      data:
+        type: object
+        description: An arbitrary JSON object
+        properties: {}
+      metadata:
+        type: string
+        description: An arbitrary string
+        readOnly: true
+      createdAt:
+        type: string
+        format: dateTime
+        description: UTC timestamp (set to now on creation)
+        readOnly: true
+      workflowStageId:
+        type: string
+        format: uuid
+        description: InputRecords are processed through stages in the workflow. Each stage has a workflowStageId.
+        readOnly: true
+      status:
+        #description: Input Record Status
+        $ref: '#/definitions/InputRecordStatus'
+    example:
+      createdAt: "2017-11-15T14:26:17.661Z"
+      metadata: "sample metadata"
+      data: {
+        "image_url": "http://fileserver.net/photo12.png",
+        "image_timestamp": 1563493639,
+        "image_guid": "CQ4JAQgOCQQDAQgHBAwDDQ"
+      }
+      workflowStageId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      id: 309ec5c5-6589-47fc-bd3d-c5b4edeb5d57
+      status: "queued"
+    x-identifiable: true
+  InputRecordStatus:
+    type: string
+    enum:
+      - queued
+      - in-progress
+      - escalated
+      - exception
+      - canceled
+      - complete
+
+responses:
+  ErrorResponse:
+    description: Standard error response
+    schema:
+      $ref: '#/definitions/ErrorModel'
+  ValidationResponse:
+    description: Validation Errors
+    schema:
+      $ref: '#/definitions/ValidationModel'
+securityDefinitions:
+  OauthSecurity:
+    description: OpenID Connect authentication via Keycloak Server
+    type: oauth2
+    authorizationUrl: 'https://app.alegion.com/auth/realms/master/protocol/openid-connect/auth'
+    tokenUrl: 'https://app.alegion.com/auth/realms/master/protocol/openid-connect/token'
+    flow: accessCode
+    scopes:
+      'create:tenant': Create tenant
+      'read:tenant': Read any tenant
+      'update:tenant': Update any tenant
+      'delete:tenant': Delete any tenant
+      'create:user': Create any user
+      'read:user': Read any user info
+      'update:user': Update any user
+      'delete:user': Delete any user
+      'update:user-group': Update any user group
+      'read:user-group': Read any user group
+      'create:password-reset': Change password for any user
+      'create:worker-group': Create worker group
+      'read:worker-group': Read worker group
+      'update:worker-group': Update worker group
+      'delete:worker-group': Delete worker group
+      'update:worker-group-locked': Update locked flag of worker group
